@@ -1,1 +1,1 @@
-# ekada
+# ekada-app

@@ -1,0 +1,30 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env
+frontend/public/
+frontend/Dockerfile
+frontend/.local
+frontend/*.log
+frontend/.vite/
+
+# Backend
+backend/node_modules/
+backend/Dockerfile
+backend/logs
+backend/*.log
+backend/npm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+compose.yml

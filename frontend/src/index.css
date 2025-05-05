@@ -1,0 +1,55 @@
+#root {
+    background-color: #0c0e0a;
+    height: 100%;
+    min-height: 100vh;
+    color: white;
+}
+
+.team-card {
+    background-color: #1d1e29;
+    width: 75vw;
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.leauge-container {
+    background-color: red;
+}
+
+.league-div {
+    border: 5px red solid;
+    background-color: white;
+    width: 10vw;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar {
+    background-color: #171815;
+    margin-bottom: 1rem;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.date-text {
+    font-size: 2rem;
+}
+
+#leagueBanner {
+    border: .15rem solid red;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 50vw;
+}
+
+#matchCard {
+    background-color: #1d1e29;
+    border-radius: 5px;
+    margin: .5rem;
+    padding: .5rem;
+    height: 5vh;
+    width: 50vw;
+}
