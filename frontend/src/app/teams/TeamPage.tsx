@@ -18,9 +18,9 @@ function Team() {
     if (data) {
         return (
             <div>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex flex-column justify-content-center">
                     <div className="d-flex flex-column team-card">
-                        <h1>{data.cargoquery[0].title.Name}</h1>Ï
+                        <h1>{data.cargoquery[0].title.Name}</h1>
                         <img src="@" alt={"Logo for " + data.cargoquery[0].title.Name} />
                         <h2>{data.cargoquery[0].title.Region}</h2>
                     </div>
@@ -36,7 +36,9 @@ function Team() {
 
 function Roster() {
     return (
-        <div></div>
+        <div>
+            <p>hello</p>
+        </div>
     );
 }
 

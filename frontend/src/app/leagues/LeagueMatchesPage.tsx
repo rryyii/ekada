@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import Standings from "./StandingsPage.tsx";
-import MatchCard from "./MatchCard.tsx";
+import MatchCard from "../matches/MatchCard.tsx";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
     useQuery,
@@ -58,7 +58,7 @@ function MatchDayList({ series }: { series: any }) {
 
 function LeagueBanner({ leagueName }: { leagueName: string }) {
     return (
-        <div id="leagueBanner">
+        <div id="leagueBanner" className="team-card">
             <div>
                 <div>
                     {leagueName}

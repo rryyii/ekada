@@ -15,29 +15,29 @@ function MainPage() {
             <div className="row">
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LCK"} >
-                        <img alt="LCK Logo" loading="lazy" style={{ width: 20 + 'px', height: 20 + 'px' }} src={leagues.LCK}></img>
+                        <img alt="LCK Logo" loading="lazy" src={leagues.LCK}></img>
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LPL"} >
-                        <img alt="LPL Logo" loading="lazy" style={{width: 20 + 'px', height: 20 + 'px' }} src={leagues.LPL}></img>
+                        <img alt="LPL Logo" loading="lazy" src={leagues.LPL}></img>
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LEC"} >
-                        <img alt="LEC Logo" loading="lazy" style={{width: 20 + 'px', height: 20 + 'px' }} src={leagues.LEC}></img>
+                        <img alt="LEC Logo" loading="lazy" src={leagues.LEC}></img>
                     </Link>
                 </div>
             </div>
             <div className="row">
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA North"} >
-                        <img alt="LTA North Logo" loading="lazy" style={{ width: 20 + 'px', height: 20 + 'px' }} src={leagues["LTA North"]}></img>
+                        <img alt="LTA North Logo" loading="lazy" src={leagues["LTA North"]}></img>
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA South"} >
-                        <img alt="LTA South Logo" loading="lazy" style={{ width: 20 + 'px', height: 20 + 'px' }} src={leagues["LTA South"]}></img>
+                        <img alt="LTA South Logo" loading="lazy" src={leagues["LTA South"]}></img>
                     </Link>
                 </div>
             </div>

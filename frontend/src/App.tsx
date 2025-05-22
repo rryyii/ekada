@@ -1,8 +1,8 @@
-import Leagues from "./components/content/LeagueMatchesPage.js";
-import NavBar from "./components/layout/NavBar.js";
-import MainPage from "./components/content/LeaguesPage.js";
-import Team from "./components/content/TeamPage.js";
-import MatchDetails from "./components/content/MatchDetails.js";
+import Leagues from "./app/leagues/LeagueMatchesPage.js";
+import NavBar from "./app/layout/NavBar.js";
+import MainPage from "./app/leagues/LeaguesPage.js";
+import Team from "./app/teams/TeamPage.js";
+import MatchDetails from "./app/matches/MatchDetails.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import {
   QueryClient,
