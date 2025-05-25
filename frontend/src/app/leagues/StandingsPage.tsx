@@ -5,8 +5,10 @@ import { Link } from "react-router";
 
 function Standings({ leagueName }: { leagueName: string }) {
     const { isPending, error, data } = useQuery({
-        queryKey: ['standingData'],
+        queryKey: [`standingData-${leagueName}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`).then((res) => res.json()),
+        refetchOnWindowFocus: true,
+        staleTime: 0,
     });
 
     if (isPending) return 'Loading...';

@@ -20,7 +20,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/leagues/:leagueName" element={<Leagues />} />
+            <Route path="/leagues/:leagueName" element={<Leagues key={location.pathname} />} />
             <Route path="/team/:teamName" element={<Team />} />
             <Route path="/match_details" element={<MatchDetails />} />
           </Routes>

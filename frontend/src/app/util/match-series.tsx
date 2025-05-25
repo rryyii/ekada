@@ -29,7 +29,18 @@ export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
 }
 
 export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
-
+    const cargo = rawPlayers.cargoquery;
+    const map = new Map();
+    for (const player of cargo) {
+        const team = player.title.Team;
+        if (map.has(team)) {
+            const current = map.get(team);
+            current.push(player);
+        } else {
+            map.set(team, [player]);
+        }
+    }
+    return map;
 }
 
 export interface MatchData {

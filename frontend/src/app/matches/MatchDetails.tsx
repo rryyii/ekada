@@ -2,31 +2,34 @@ import { useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { championList } from "../util/champion-images";
-import { MatchData } from "../util/match-series";
+import { groupPlayersIntoTeams, MatchData } from "../util/match-series";
 
 function MatchDetails() {
     const location = useLocation();
     const datas = location.state;
     const [selectedMatch, setSelectedMatch] = useState<MatchData>();
+    const [teams, setTeams] = useState<any>();
     const [queryKey, setQueryKey] = useState(0);
 
     const { data } = useQuery({
-        queryKey: ['matchData', selectedMatch?.title.MatchId, queryKey],
+        queryKey: [`matchData-${selectedMatch?.title.MatchId}`, selectedMatch?.title.MatchId, queryKey],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match/${encodeURIComponent(selectedMatch?.title.MatchId)}/${queryKey}`).then((res) => res.json()),
         enabled: !!selectedMatch && !!queryKey,
+        refetchOnWindowFocus: true,
+        staleTime: 0,
     })
 
     useEffect(() => {
-        if (datas && queryKey == 0) {
-            setSelectedMatch(datas[0]);
+        if (data) {
+            setTeams(groupPlayersIntoTeams(data));
         }
-    })
+    }, [data])
 
     return (
         <div className="container">
             <div>
                 {datas.map((item: any, index: number) => (
-                    <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1) }}>Match {index}</button>
+                    <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1); }}>Match {index}</button>
                 ))}
             </div>
             <div id="match-details" className="d-flex flex-col justify-content-evenly">
@@ -44,9 +47,34 @@ function MatchDetails() {
                         {selectedMatch ? championList(selectedMatch.title.Team2Bans) : "Fetching Team 2 Bans"}
                     </div>
                     {selectedMatch ? <Objectives selectedMatch={selectedMatch} /> : "Failed to display objectives"}
-                    <div className="d-flex flex-col">
+                    <div className="d-flex flex-col gap-5">
                         <div>
-                            {data}
+                            {teams ? teams.get(selectedMatch?.title.Team1).map((item: any) => (
+                                <div>
+                                    <span>{item.title.Kills}/</span>
+                                    <span>{item.title.Deaths}/</span>
+                                    <span>{item.title.Assists}</span>
+                                    <span> CS: {item.title.CS}</span>
+                                    <span> Gold: {item.title.Gold} </span>
+                                    <span> {item.title.Name}</span>
+                                    <span>{championList(item.title.Champion)}</span>
+                                </div>
+                            ))
+                                : "loading"}
+                        </div>
+                        <div>
+                            {teams ? teams.get(selectedMatch?.title.Team2).map((item: any) => (
+                                <div>
+                                    <span>{item.title.Kills}/</span>
+                                    <span>{item.title.Deaths}/</span>
+                                    <span>{item.title.Assists}</span>
+                                    <span> CS: {item.title.CS}</span>
+                                    <span> Gold: {item.title.Gold} </span>
+                                    <span> {item.title.Name}</span>
+                                    <span>{championList(item.title.Champion)}</span>
+                                </div>
+                            ))
+                                : "loading"}
                         </div>
                     </div>
                 </div>

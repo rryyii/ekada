@@ -13,8 +13,10 @@ function Leagues() {
     const path = `${leagueName} ${currentYear}`;
 
     const { isPending, error, data } = useQuery({
-        queryKey: ['leagueData'],
+        queryKey: [`leagueData-${leagueName}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match_schedule/${path}`).then((res) => res.json()),
+        refetchOnWindowFocus: true,
+        staleTime: 0,
     });
 
     if (isPending) return 'Loading...';
@@ -34,6 +36,7 @@ function Leagues() {
                     </div>
                     <div>
                         <Standings leagueName={op} />
+                        <h1>{op}</h1>
                     </div>
                 </div>
             </div>);

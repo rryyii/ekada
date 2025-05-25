@@ -77,9 +77,8 @@ app.get("/api/leagues/standings/:league_name", async (req, res) => {
 app.get("/api/match/:match_id/:game_id", async (req, res) => {
     const matchId = req.params.match_id;
     const gameId = req.params.game_id;
-    console.log(matchId, gameId);
     const apiUrl = `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=ScoreboardPlayers=SP&fields=SP.MatchId,SP.Team,SP.Name,SP.Role,SP.Items,SP.Trinket,SP.CS,SP.Runes,SP.Kills,SP.Deaths,SP.Assists,SP.Gold,SP.VisionScore,SP.Champion,SP.SummonerSpells&where=SP.MatchId=\"${matchId}\"%20AND%20SP.GameId=\"${matchId}_${gameId}\"`;
-    const cacheKey = `game-data-${encodeURIComponent(gameId)}`;
+    const cacheKey = `game-data-${encodeURIComponent(gameId)}-${encodeURIComponent(matchId)}}`;
     const data = await getFromPandaScore(apiUrl, cacheKey);
     res.json(data);
 });
