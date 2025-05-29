@@ -1,8 +1,11 @@
-import { Fragment } from "react";
-import React from "react";
 import { Link } from "react-router";
 import Search from "./SearchFunction.js"
 
+/**
+ * Returns a component involving the navigation bar for the entire application.
+ * 
+ * @category Layout
+ */
 function NavBar() {
     return (
             <nav className="navbar navbar-expand-lg">

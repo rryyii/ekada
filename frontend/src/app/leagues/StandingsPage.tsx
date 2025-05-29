@@ -3,7 +3,14 @@ import {
 } from '@tanstack/react-query'
 import { Link } from "react-router";
 
-function Standings({ leagueName }: { leagueName: string }) {
+/**
+ * Returns a component that displays the current league's standings, including (wins, losses, and number). 
+ *
+ * @param leagueName  A string of the current league.
+ * @param tournamentName A string of the current tournament.
+ * @category League
+ */
+function Standings({ leagueName, tournamentName}: { leagueName: string ; tournamentName: string}) {
     const { isPending, error, data } = useQuery({
         queryKey: [`standingData-${leagueName}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`).then((res) => res.json()),
@@ -15,7 +22,7 @@ function Standings({ leagueName }: { leagueName: string }) {
 
     if (error) return 'An error has occurred: ' + error.message;
 
-    if (data) {
+    if (data && data.cargoquery.length > 0) {
         return (
             <div>
                 <table className="table table-striped">
@@ -27,30 +34,22 @@ function Standings({ leagueName }: { leagueName: string }) {
                         </tr>
                     </thead>
                     <tbody>
-                        <StandingData data={data} />
+                        {data.cargoquery.map((item: { title: { Place: string, Team: string, WinSeries: string, LossSeries: string } }) => (
+                            <tr key={`${item.title.Place} - ${item.title.Team}`}>
+                                <td>{item.title.Place}</td>
+                                <td>
+                                    <Link to={`/team/${encodeURIComponent(item.title.Team)}/${encodeURIComponent(tournamentName)}`}>
+                                        {item.title.Team}
+                                    </Link>
+                                </td>
+                                <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
         );
     }
-}
-
-function StandingData({ data }: { data: any }) {
-    return (
-        <>
-            {data.cargoquery.map((item: { title: { Place: string, Team: string, WinSeries: string, LossSeries: string } }) => (
-                <tr key={`${item.title.Place} - ${item.title.Team}`}>
-                    <td>{item.title.Place}</td>
-                    <td>
-                        <Link to={"/team/" + item.title.Team}>
-                            {item.title.Team}
-                        </Link>
-                    </td>
-                    <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
-                </tr>
-            ))}
-        </>
-    );
 }
 
 export default Standings;

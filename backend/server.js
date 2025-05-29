@@ -8,6 +8,8 @@ const cache = new NodeCache();
 const REACT_PORT = process.env.VITE_FRONT_PORT;
 const PORT = process.env.VITE_APP_PORT;
 
+const baseUrl = "https://lol.fandom.com/api.php?action=cargoquery&format=json";
+
 app.use(cors({
     origin: `http://localhost:${REACT_PORT}`,
     credentials: true,
@@ -40,15 +42,17 @@ app.get("/api/match_schedule/:league_name", async (req, res) => {
     const leagueName = req.params.league_name;
     const currentDate = new Date();
     const dateString = currentDate.toISOString().slice(0, 10);
-    const apiUrl = `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=MatchSchedule=MS,Tournaments=TS,ScoreboardGames=SG&fields=MS.Team1,SG.Team1Bans,SG.Team1Picks,MS.Team1Score,SG.Team1Dragons,SG.Team2Dragons,SG.Team1Barons,SG.Team2Barons,SG.Team1VoidGrubs,SG.Team2VoidGrubs,SG.Team1Towers,SG.Team2Towers,SG.Team1RiftHeralds,SG.Team2RiftHeralds,TS.OverviewPage,SG.Team1Atakhans,SG.Team2Atakhans,SG.Team1Gold,SG.Team2Gold,MS.Team2,SG.Team2Bans,SG.Team2Picks,MS.Team2Score,SG.Team2Dragons,TS.Split,MS.DateTime_UTC,SG.Gamelength,SG.Patch,SG.VOD,MS.MatchId&join_on=MS.ShownName=TS.Name,MS.MatchId=SG.MatchId&where=TS.Name%20LIKE%20\"${leagueName}%\"%20AND%20\"${dateString}\"BETWEEN%20TS.DateStart%20AND%20TS.Date&order_by=MS.DateTime_UTC&limit=250`;
+    const apiUrl = `${baseUrl}&tables=MatchSchedule=MS,Tournaments=TS,ScoreboardGames=SG&fields=TS.Name,MS.Team1,SG.Team1Bans,SG.Team1Picks,MS.Team1Score,SG.Team1Dragons,SG.Team2Dragons,SG.Team1Barons,SG.Team2Barons,SG.Team1VoidGrubs,SG.Team2VoidGrubs,SG.Team1Towers,SG.Team2Towers,SG.Team1RiftHeralds,SG.Team2RiftHeralds,TS.OverviewPage,SG.Team1Atakhans,SG.Team2Atakhans,SG.Team1Gold,SG.Team2Gold,MS.Team2,SG.Team2Bans,SG.Team2Picks,MS.Team2Score,SG.Team2Dragons,TS.Split,MS.DateTime_UTC,SG.Gamelength,SG.Patch,SG.VOD,MS.MatchId&join_on=MS.ShownName=TS.Name,MS.MatchId=SG.MatchId&where=TS.Name%20LIKE%20\"${leagueName}%\"%20AND%20\"${dateString}\"BETWEEN%20TS.DateStart%20AND%20TS.Date&order_by=MS.DateTime_UTC&limit=250`;
+    
     const cacheKey = `match-schedule-${encodeURIComponent(leagueName)}`;
     const data = await getFromPandaScore(apiUrl, cacheKey);
     res.json(data);
 });
 
-app.get("/api/team_info/:team_name", async (req, res) => {
+app.get("/api/team_info/:team_name/:tournament_name", async (req, res) => {
     const teamName = req.params.team_name;
-    const apiUrl = `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=Teams&fields=Teams.Name,Teams.Image,Teams.Region&where=Teams.name=\"${teamName}\"`;
+    const tournamentName = req.params.tournament_name;
+    const apiUrl = `https://lol.fandom.com/api.php?action=cargoquery&format=json&tables=TournamentRosters=TR&fields=TR.Team,TR.RosterLinks,TR.Roles&where=TR.Tournament=\"${tournamentName}\"%20AND%20TR.Team=\"${teamName}\"`;
     const cacheKey = `team-data-${encodeURIComponent(teamName)}`;
     const data = await getFromPandaScore(apiUrl, cacheKey);
     res.json(data);

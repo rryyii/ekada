@@ -1,6 +1,10 @@
-import React from "react";
 import { Link } from "react-router";
 
+/**
+ * Returns a component including links to the currently managed leagues (LPL, LTA N, LTA S, LEC, and LCK).
+ *
+ * @category League
+ */
 function MainPage() {
     const leagues = {
         "LPL": "/assets/LPL_2020_logo.png",

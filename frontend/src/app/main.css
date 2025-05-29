@@ -1,0 +1,99 @@
+:root {
+    --bg-primary: #0c0e0a;
+    --bg-secondary: #1d1e29;
+    --text-color: white;
+}
+
+/* Base components and Nav */
+
+#root {
+    background-color: var(--bg-primary);
+    height: 100%;
+    min-height: 100vh;
+    color: white;
+}
+
+.navbar {
+    background-color: #171815;
+    margin-bottom: 1rem;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+
+
+/* TeamPage and LeagueMatchesPage  */
+.team-card {
+    background-color: var(--bg-secondary);
+    width: 75vw;
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.league-div {
+    background-color: var(--bg-secondary);
+    width: 10vw;
+    display: flex;
+    justify-content: center;
+}
+
+.date-text {
+    font-size: 2rem;
+}
+
+#leagueBanner {
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 50vw;
+}
+
+.team-player {
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: .5rem;
+}
+
+
+
+
+
+/* MatchDetails and MatchCard */
+
+.match-container {
+    background-color: var(--bg-secondary);
+    border-radius: .5rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+#matchCard {
+    background-color: var(--bg-secondary);
+    border-radius: 5px;
+    margin: .5rem;
+    padding: .5rem;
+    height: 5vh;
+    width: 50vw;
+}
+
+.match-team1, .match-team2 {
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: .5rem;
+}
+
+.obj-container {
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: .5rem;
+    display: flex;
+    margin: 1rem 0 1rem 0;
+}
+
+.match-btn {
+    margin: 1rem;
+}

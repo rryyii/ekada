@@ -1,3 +1,9 @@
+/**
+ * A helper function that returns a component with the corresponding champion's image.
+ * 
+ * @param champions List or String of champion(s) to fetch their corresponding image/icon.
+ * @category Util
+ */
 export function championList(champions: string) {
     if (champions) {
         return (
