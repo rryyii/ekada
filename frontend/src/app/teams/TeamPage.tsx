@@ -13,6 +13,11 @@ function Team() {
     const params = useParams();
     const teamName = params.teamName;
     const leagueName = params.leagueName;
+    const test = leagueName?.split(" ");
+    let test2 = "";
+    if (test) {
+        test2 = test[0] + " " + test[1];
+    }
 
     const enabled = !!teamName && !!leagueName;
     const { isPending, error, data } = useQuery({
@@ -21,9 +26,17 @@ function Team() {
             `http://localhost:${import.meta.env.VITE_APP_PORT}/api/team_info/${encodeURIComponent(teamName as string)}/${encodeURIComponent(leagueName as string)}`
         ).then((res) => res.json()),
         enabled,
-    })
+    });
 
-    if (isPending) return 'Loading...'
+    const { data: cacheData, isPending: isCachePending } = useQuery({
+        queryKey: [`team-cache-${teamName}`],
+        queryFn: () => fetch(
+            `http://localhost:${import.meta.env.VITE_APP_PORT}/api/team_cache/${encodeURIComponent(teamName as string)}/${encodeURIComponent(test2 as string)}`
+        ).then((res) => res.json()),
+        enabled,
+    });
+
+    if (isPending || isCachePending) return 'Loading...'
 
     if (error) return 'An error has occurred: ' + error.message
 

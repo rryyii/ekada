@@ -19,29 +19,33 @@ function MainPage() {
             <div className="row">
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LCK"} >
-                        <img alt="LCK Logo" loading="lazy" src={leagues.LCK}></img>
+                        <h1>LCK</h1>
                     </Link>
+
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LPL"} >
-                        <img alt="LPL Logo" loading="lazy" src={leagues.LPL}></img>
+                        <h1>LPL</h1>
+
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LEC"} >
-                        <img alt="LEC Logo" loading="lazy" src={leagues.LEC}></img>
+                        <h1>LEC</h1>
+
                     </Link>
                 </div>
             </div>
             <div className="row">
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA North"} >
-                        <img alt="LTA North Logo" loading="lazy" src={leagues["LTA North"]}></img>
+                        <h1>LTA North</h1>
+
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA South"} >
-                        <img alt="LTA South Logo" loading="lazy" src={leagues["LTA South"]}></img>
+                        <h1>LTA South</h1>
                     </Link>
                 </div>
             </div>

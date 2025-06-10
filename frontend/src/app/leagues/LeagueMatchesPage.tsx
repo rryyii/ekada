@@ -81,7 +81,6 @@ function LeagueBanner({ leagueName, tournamentName}: { leagueName: string; tourn
             <div>
                 <div>
                     <h1>{leagueName}</h1>
-                    <h3>{tournamentName}</h3>
                 </div>
             </div>
         </div>

@@ -35,9 +35,18 @@
 
 .league-div {
     background-color: var(--bg-secondary);
+    border-radius: .5rem;
+    margin: 1rem;
     width: 10vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    transition: background-color .25s ease-in-out;
+}
+
+.league-div:hover {
+    background-color: red;
 }
 
 .date-text {
@@ -96,4 +105,8 @@
 
 .match-btn {
     margin: 1rem;
+}
+
+.player-items {
+    width: 8vw;
 }
