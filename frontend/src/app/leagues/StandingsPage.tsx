@@ -10,7 +10,7 @@ import { Link } from "react-router";
  * @param tournamentName A string of the current tournament.
  * @category League
  */
-function Standings({ leagueName, tournamentName}: { leagueName: string ; tournamentName: string}) {
+function Standings({ leagueName, tournamentName }: { leagueName: string; tournamentName: string }) {
     const { isPending, error, data } = useQuery({
         queryKey: [`standingData-${leagueName}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`).then((res) => res.json()),
@@ -25,24 +25,24 @@ function Standings({ leagueName, tournamentName}: { leagueName: string ; tournam
     if (data && data.cargoquery.length > 0) {
         return (
             <div>
-                <table className="table table-striped">
+                <table className="table table-dark table-borderless table-striped standings-table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Team</th>
                             <th scope="col">Record</th>
+                            <th scope="col">Points</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.cargoquery.map((item: { title: { Place: string, Team: string, WinSeries: string, LossSeries: string } }) => (
+                        {data.cargoquery.map((item: { title: { Place: string, Team: string, WinSeries: string, LossSeries: string, Points: number } }) => (
                             <tr key={`${item.title.Place} - ${item.title.Team}`}>
                                 <td>{item.title.Place}</td>
                                 <td>
-                                    <Link to={`/team/${encodeURIComponent(item.title.Team)}/${encodeURIComponent(tournamentName)}`}>
-                                        {item.title.Team}
-                                    </Link>
+                                    {item.title.Team}
                                 </td>
                                 <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
+                                <td>{item.title.Points}</td>
                             </tr>
                         ))}
                     </tbody>

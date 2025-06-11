@@ -10,6 +10,7 @@
     background-color: var(--bg-primary);
     height: 100%;
     min-height: 100vh;
+    max-width: 100vw;
     color: white;
 }
 
@@ -21,7 +22,6 @@
 .nav-link {
     color: white !important;
 }
-
 
 
 /* TeamPage and LeagueMatchesPage  */
@@ -55,7 +55,7 @@
 
 #leagueBanner {
     border-radius: 5px;
-    padding: 10px;
+    padding: 1rem;
     max-width: 50vw;
 }
 
@@ -84,8 +84,7 @@
     border-radius: 5px;
     margin: .5rem;
     padding: .5rem;
-    height: 5vh;
-    width: 50vw;
+    width: 30vw;
 }
 
 .match-team1, .match-team2 {
@@ -97,7 +96,7 @@
 
 .obj-container {
     background-color: var(--bg-secondary);
-    padding: 1rem;
+    padding: .5rem;
     border-radius: .5rem;
     display: flex;
     margin: 1rem 0 1rem 0;
@@ -109,4 +108,24 @@
 
 .player-items {
     width: 8vw;
+}
+
+.btn-text {
+    color: white !important;
+}
+
+.btn-text:hover {
+    color: red !important;
+}
+
+#match-content {
+    width: 80vw;
+    max-width: 80vw;
+}
+
+
+
+/* Standings */
+.standings-table {
+    border-radius: 1rem;
 }

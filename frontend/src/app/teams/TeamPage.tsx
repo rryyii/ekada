@@ -28,15 +28,15 @@ function Team() {
         enabled,
     });
 
-    const { data: cacheData, isPending: isCachePending } = useQuery({
-        queryKey: [`team-cache-${teamName}`],
-        queryFn: () => fetch(
-            `http://localhost:${import.meta.env.VITE_APP_PORT}/api/team_cache/${encodeURIComponent(teamName as string)}/${encodeURIComponent(test2 as string)}`
-        ).then((res) => res.json()),
-        enabled,
-    });
+    // const { data: cacheData, isPending: isCachePending } = useQuery({
+    //     queryKey: [`team-cache-${teamName}`],
+    //     queryFn: () => fetch(
+    //         `http://localhost:${import.meta.env.VITE_APP_PORT}/api/team_cache/${encodeURIComponent(teamName as string)}/${encodeURIComponent(test2 as string)}`
+    //     ).then((res) => res.json()),
+    //     enabled,
+    // });
 
-    if (isPending || isCachePending) return 'Loading...'
+    if (isPending) return 'Loading...'
 
     if (error) return 'An error has occurred: ' + error.message
 

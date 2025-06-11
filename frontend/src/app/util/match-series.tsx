@@ -9,30 +9,37 @@ export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
     const futureMap = new Map();
     const today = new Date();
     let cargo = rawMatches.cargoquery;
-    const op = cargo[0].title.OverviewPage;
-    const tName = cargo[0].title.Name;
-
     for (const match of cargo) {
         const date = new Date(match.title["DateTime UTC"]);
         const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
         const formattedDate = date.toLocaleDateString('en-US', options);
-        if (date >= today) {
-            if (futureMap.has(formattedDate)) {
-                const current = futureMap.get(formattedDate);
-                current.push(match);
-            } else {
-                futureMap.set(formattedDate, [match]);
+
+        const tournamentName = match.title.Name;
+        if (match.title.Split != null) {
+            const targetMap = date >= today ? futureMap : currentMap;
+
+            if (!targetMap.has(tournamentName)) {
+                targetMap.set(tournamentName, new Map());
             }
-        } else {
-            if (currentMap.has(formattedDate)) {
-                const current = currentMap.get(formattedDate);
-                current.push(match)
-            } else {
-                currentMap.set(formattedDate, [match]);
+
+            const dateMap = targetMap.get(tournamentName);
+
+            if (!dateMap.has(formattedDate)) {
+                dateMap.set(formattedDate, []);
             }
+
+            dateMap.get(formattedDate).push(match);
         }
     }
-    return [currentMap, futureMap, op, tName];
+
+    const tName = cargo[0]?.title.Name;
+
+    return [currentMap, futureMap, tName];
+}
+
+
+export function mapSeriesIntoTournaments(series: {}) {
+    console.log(series);
 }
 
 /**
@@ -63,7 +70,7 @@ export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
  * @param roles Data including the team's roles
  * @category Util
  */
-export function parsePlayersIntoRoles( players: string, roles: string ) {
+export function parsePlayersIntoRoles(players: string, roles: string) {
     const playersList = players.split(";;");
     const rolesList = roles.split(";;");
     const map = new Map();

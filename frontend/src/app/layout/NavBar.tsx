@@ -9,7 +9,7 @@ import Search from "./SearchFunction.js"
 function NavBar() {
     return (
             <nav className="navbar navbar-expand-lg">
-                <ul className="navbar-nav">
+                <ul className="navbar-nav ">
                     <li className="nav-item">
                         <Link to="/" className="nav-link">
                             Home

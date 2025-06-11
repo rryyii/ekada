@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import Standings from "./StandingsPage.tsx";
 import MatchCard from "../matches/MatchCard.tsx";
+import { useEffect, useState } from "react";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
     useQuery,
@@ -15,6 +16,8 @@ function Leagues() {
     const params = useParams();
     const leagueName: string | undefined = params.leagueName;
     const currentYear = new Date().getFullYear();
+    const [selectedTournament, setSelectedTournament] = useState<any>();
+    const [tournamentString, setTournamentString] = useState<string>();
     const path = `${leagueName} ${currentYear}`;
 
     const { isPending, error, data } = useQuery({
@@ -29,16 +32,25 @@ function Leagues() {
     if (error) return 'An error has occurred: ' + error.message;
 
     if (data) {
-        const [series, future, op, tName] = groupMatchesIntoSeries(data);
+        const [series, future, tName] = groupMatchesIntoSeries(data);
         return (
             <div className="d-flex flex-column">
-                <LeagueBanner leagueName={leagueName || "Unknown League"} tournamentName={tName}/>
-                <div className="d-flex p-2 justify-content-around">
+                <div id="leagueBanner" className="team-card">
                     <div>
-                        <MatchDayList series={series} tournamentName={tName} />
+                        <h1>{leagueName}</h1>
                     </div>
                     <div>
-                        <Standings leagueName={op} tournamentName={tName} />
+                        {[...series.entries()].map(([key, value, idx]) => (
+                            <button key={`${idx}-${key}`} onClick={() => { setSelectedTournament(value); setTournamentString(value.values().next().value[0].title.OverviewPage) }} className="btn btn-text">{key}</button>
+                        ))}
+                    </div>
+                </div>
+                <div className="d-flex p-2 justify-content-around">
+                    <div>
+                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : "Loading"}
+                    </div>
+                    <div>
+                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} tournamentName={tName} /> : "Loading"}
                     </div>
                 </div>
             </div>);
@@ -53,36 +65,17 @@ function Leagues() {
  * @param tournamentName A string of the current tournament.
  * @category League
  */
-function MatchDayList({ series, tournamentName}: { series: any ; tournamentName: string}) {
+function MatchDayList({ series, tournamentName }: { series: any; tournamentName: string }) {
     return (
         <div>
             {[...series.entries()].map(([key, value], index) => (
                 <div key={`${index} - ${key}`} className="container">
                     <div>
-                        <span className="date-text">{key}</span>
-                        <MatchCard matches={value} tournamentName={tournamentName}/>
+                        <h1 className="date-text">{key}</h1>
+                        <MatchCard matches={value} tournamentName={tournamentName} />
                     </div>
                 </div>
             ))}
-        </div>
-    );
-}
-
-/**
- * Returns a component that includes any relevant information for the current league. 
- *
- * @param leagueName A string of the current league name.
- * @param tournamentName A string of the current tournament.
- * @category League
- */
-function LeagueBanner({ leagueName, tournamentName}: { leagueName: string; tournamentName: string}) {
-    return (
-        <div id="leagueBanner" className="team-card">
-            <div>
-                <div>
-                    <h1>{leagueName}</h1>
-                </div>
-            </div>
         </div>
     );
 }

@@ -8,7 +8,7 @@ import { Link } from "react-router";
  * @category Match
  * 
  */
-function MatchCard({ matches, tournamentName }: { matches: any ; tournamentName: string }) {
+function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: string }) {
     const series = new Map();
     for (const match of matches) {
         if (series.get(match.title.MatchId)) {
@@ -22,16 +22,14 @@ function MatchCard({ matches, tournamentName }: { matches: any ; tournamentName:
         <div>
             {[...series.entries()].map(([key, value], index) => (
                 <div key={`${index} - ${key}`} className="d-flex">
-                    <div id="matchCard" className="d-flex justify-content-center">
-                        <div className="d-flex">
-                            <Link to={"/match_details"} state={{value, tournamentName}}>
-                                <span>{value[0].title.Team1} </span>
-                                <span>{value[0].title.Team1Score}</span>
-                                -
-                                <span>{value[0].title.Team2Score} </span>
-                                <span>{value[0].title.Team2}</span>
-                            </Link>
-                        </div>
+                    <div id="matchCard" className="d-flex justify-content-center flex-wrap">
+                        <Link to={"/match_details"} state={{ value, tournamentName }}>
+                            <span>{value[0].title.Team1} </span>
+                            <span>{value[0].title.Team1Score}</span>
+                            -
+                            <span>{value[0].title.Team2Score} </span>
+                            <span>{value[0].title.Team2}</span>
+                        </Link>
                     </div>
                 </div>
             ))}

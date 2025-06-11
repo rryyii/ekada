@@ -62,7 +62,7 @@ app.get("/api/match_schedule/:league_name", async (req, res) => {
     const params = new URLSearchParams({
         tables: "MatchSchedule=MS,Tournaments=TS,ScoreboardGames=SG",
         fields: "TS.Name,MS.Team1,SG.Team1Bans,SG.Team1Picks,MS.Team1Score,SG.Team1Dragons,SG.Team2Dragons,SG.Team1Barons,SG.Team2Barons,SG.Team1VoidGrubs,SG.Team2VoidGrubs,SG.Team1Towers,SG.Team2Towers,SG.Team1RiftHeralds,SG.Team2RiftHeralds,TS.OverviewPage,SG.Team1Atakhans,SG.Team2Atakhans,SG.Team1Gold,SG.Team2Gold,MS.Team2,SG.Team2Bans,SG.Team2Picks,MS.Team2Score,SG.Team2Dragons,TS.Split,MS.DateTime_UTC,SG.Gamelength,SG.Patch,SG.VOD,MS.MatchId",
-        join_on: "MS.ShownName=TS.Name,MS.MatchId=SG.MatchId",
+        join_on: "MS.OverviewPage=TS.OverviewPage,MS.MatchId=SG.MatchId",
         where: `TS.Name LIKE "${leagueName}%" AND MS.DateTime_UTC BETWEEN '${dateString.slice(0, 4)}-01-01' AND '${dateString}'`,
         order_by: 'MS.DateTime_UTC DESC',
         limit: '500',
@@ -115,9 +115,9 @@ app.get("/api/leagues/standings/:league_name", async (req, res) => {
     const leagueName = req.params.league_name;
     const params = new URLSearchParams({
         tables: "Standings",
-        fields: "Standings.Team,Standings.Place,Standings.WinSeries,Standings.LossSeries,Standings.Streak,Standings.StreakDirection",
+        fields: "Standings.Team,Standings.Place,Standings.WinSeries,Standings.LossSeries,Standings.Streak,Standings.StreakDirection,Standings.Points",
         where: `Standings.OverviewPage="${leagueName}"`,
-        order_by: "Place",
+        order_by: "Standings.Place",
     });
     const apiUrl = `${baseUrl}&${params.toString()}`;
     const clientKey = `standings-data-${encodeURIComponent(leagueName)}`;
@@ -156,6 +156,6 @@ app.get("/api/team_info/:tournament_name/:team_name", async (req, res) => {
 
 app.get("/api/team_client/:team_name/:league_name", async (req, res) => {
     const leagueName = req.params.league_name;
-    const matches = client.get(`match-schedule-${encodeURIComponent(leagueName)}`);
+    const teamName = req.params.team_name;
     res.json(matches);
 });

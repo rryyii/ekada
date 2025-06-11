@@ -21,18 +21,15 @@ function MainPage() {
                     <Link to={"/leagues/" + "LCK"} >
                         <h1>LCK</h1>
                     </Link>
-
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LPL"} >
                         <h1>LPL</h1>
-
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LEC"} >
                         <h1>LEC</h1>
-
                     </Link>
                 </div>
             </div>
@@ -40,7 +37,6 @@ function MainPage() {
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA North"} >
                         <h1>LTA North</h1>
-
                     </Link>
                 </div>
                 <div className="col league-div">
