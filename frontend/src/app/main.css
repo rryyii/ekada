@@ -1,6 +1,7 @@
 :root {
     --bg-primary: #0c0e0a;
     --bg-secondary: #1d1e29;
+    --bg-tertiary: #16171f;
     --text-color: white;
 }
 
@@ -42,14 +43,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: background-color .25s ease-in-out;
+    transition: background-color .15s ease-in-out;
 }
 
 .league-div:hover {
-    background-color: red;
+    background-color: var(--bg-tertiary);
 }
 
 .date-text {
+    background-color: red;
+    padding: .5rem;
+    border-radius: 0.5rem;
     font-size: 2rem;
 }
 
@@ -71,12 +75,43 @@
 
 
 /* MatchDetails and MatchCard */
-
 .match-container {
     background-color: var(--bg-secondary);
+    opacity: 90%;
     border-radius: .5rem;
-    padding: 1rem;
     margin: 1rem;
+    width: 100%;
+}
+
+.match-team-detail-banner {
+    background-color: #31313c;
+    padding: 1rem;
+    border-radius: .5rem;
+    width: 100%;
+}
+
+.match-link {
+    text-decoration: none;
+    color: white;
+    transition: background-color .15s ease-in-out;
+}
+
+.match-link:hover {
+    background-color: var(--bg-tertiary) !important;
+}
+
+.match-link-score {
+    background-color: teal;
+    padding: 0.5rem;
+    border-radius: .5rem;
+}
+
+.match-table {
+    width: 100%;
+}
+
+.match-table-header {
+    width: 100%;
 }
 
 #matchCard {
@@ -84,7 +119,7 @@
     border-radius: 5px;
     margin: .5rem;
     padding: .5rem;
-    width: 30vw;
+    width: 60vw;
 }
 
 .match-team1, .match-team2 {
@@ -102,8 +137,23 @@
     margin: 1rem 0 1rem 0;
 }
 
+.winner-team, .loser-team {
+    font-size: 1rem;
+}
+
+.winner-team {
+    color: teal;
+}
+
+.loser-team {
+    color: red;
+}
+
 .match-btn {
-    margin: 1rem;
+    margin: .5rem;
+    background-color: teal !important;
+    border: none !important; 
+    width: 5vw;
 }
 
 .player-items {
@@ -115,7 +165,7 @@
 }
 
 .btn-text:hover {
-    color: red !important;
+    color: teal !important;
 }
 
 #match-content {
@@ -128,4 +178,11 @@
 /* Standings */
 .standings-table {
     border-radius: 1rem;
+}
+
+
+
+/*  Images  */
+.base-img {
+    border-radius: .5rem;
 }
