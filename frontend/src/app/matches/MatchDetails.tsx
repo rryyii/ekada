@@ -36,23 +36,21 @@ function MatchDetails() {
     }, [data])
     return (
         <div className="d-flex flex-column">
-            <div className="match-btns">
-                {value.map((item: any, index: number) => (
-                    <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1); }}>Match {index}</button>
-                ))}
-                <a className="btn btn-light" target="_blank" href={selectedMatch ? selectedMatch.title.VOD : "Loading"}>VOD</a>
-            </div>
             <div id="match-details" className="d-flex flex-col justify-content-evenly">
                 <div id="match-content">
-                    <div className="d-flex flex-col justify-content-evenly">
-                        <div className="match-team1">
+                    <div className="match-btns">
+                        {value.map((item: any, index: number) => (
+                            <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1); }}>{index + 1}</button>
+                        ))}
+                        <a className="btn btn-light" target="_blank" href={selectedMatch ? selectedMatch.title.VOD : "Loading"}>
+                            VOD
+                        </a>
+                    </div>
+                    <div className="d-flex flex-col justify-content-around">
+                        <div className="match-team1 d-flex">
                             <Link to={`/team/${selectedMatch?.title.Team1}/${tournamentName}`}>
                                 <h1>{selectedMatch ? selectedMatch.title.Team1 : "No Team 1 Found"}</h1>
                             </Link>
-                        </div>
-                        <div>
-                            <p>Patch {selectedMatch ? selectedMatch.title.Patch : "Loading"}</p>
-                            <p>{selectedMatch ? selectedMatch.title.Gamelength : "Loading"}</p>
                         </div>
                         <div className="match-team2">
                             <Link to={`/team/${selectedMatch?.title.Team2}/${tournamentName}`}>
@@ -60,68 +58,145 @@ function MatchDetails() {
                             </Link>
                         </div>
                     </div>
-                    <div id="match-bans" className="d-flex flex-row gap-5 justify-content-evenly">
-                        {selectedMatch ? championList(selectedMatch.title.Team1Bans) : "Fetching Team 1 Bans"}
-                        {selectedMatch ? championList(selectedMatch.title.Team2Bans) : "Fetching Team 2 Bans"}
+                    <div>
+                        <div id="match-bans" className="d-flex flex-row justify-content-around">
+                            {selectedMatch ? championList(selectedMatch.title.Team1Bans) : "Fetching Team 1 Bans"}
+                            {selectedMatch ? championList(selectedMatch.title.Team2Bans) : "Fetching Team 2 Bans"}
+                        </div>
+                        {selectedMatch ? <Objectives selectedMatch={selectedMatch} /> : "Failed to display objectives"}
                     </div>
-                    {selectedMatch ? <Objectives selectedMatch={selectedMatch} /> : "Failed to display objectives"}
-                    <div className="d-flex flex-col gap-5 justify-content-evenly match-container">
-                        <div>
-                            {teams ? teams.get(selectedMatch?.title.Team1).map((item: any) => (
-                                <div className="match-team-details1 d-flex justify-content-around" key={`${item.title.Name}`}>
-                                    <span><ItemImage item={item.title.Trinket} /></span>
-                                    <div className="d-flex flex-wrap player-items">
-                                        {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
-                                            <SummonerImage key={idx} spell={val} />
-                                        ))}
-                                    </div>
-                                    <div className="d-flex flex-wrap player-items justify-content-evenly">
-                                        {item.title.Items.split(";").map((val: string, idx: number) => (
-                                            <ItemImage key={idx} item={val} />
-                                        ))}
-                                    </div>
-                                    <div>
-                                        <span>{item.title.Kills}/</span>
-                                        <span>{item.title.Deaths}/</span>
-                                        <span>{item.title.Assists}</span>
-                                    </div>
-
-                                    <span> {item.title.CS}</span>
-                                    <span> {item.title.Gold} </span>
-
-                                    <span> {item.title.Name}</span>
-                                    <span>{championList(item.title.Champion)}</span>
-
-                                </div>
-                            ))
-                                : "Loading"}
-                        </div>
-                        <div>
-                            {teams ? teams.get(selectedMatch?.title.Team2).map((item: any) => (
-                                <div className="match-team-details1 d-flex" key={`${item.title.Name}`}>
-                                    <span><ItemImage item={item.title.Trinket} /></span>
-                                    <div className="d-flex flex-wrap player-items">
-                                        {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
-                                            <SummonerImage key={idx} spell={val} />
-                                        ))}
-                                    </div>
-                                    <div className="d-flex flex-wrap player-items justify-content-evenly">
-                                        {item.title.Items.split(";").map((val: string, idx: number) => (
-                                            <ItemImage key={idx} item={val} />
-                                        ))}
-                                    </div>
-
-                                    <span>{item.title.Kills}/</span>
-                                    <span>{item.title.Deaths}/</span>
-                                    <span>{item.title.Assists}</span>
-                                    <span>{item.title.CS}</span>
-                                    <span>{item.title.Gold} </span>
-                                    <span> {item.title.Name}</span>
-                                    <span>{championList(item.title.Champion)}</span>
-                                </div>
-                            ))
-                                : "Loading"}
-                        </div>
+                    <div className="d-flex p-5 flex-col gap-3 match-container flex-wrap">
+                        <table className="match-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        {selectedMatch?.title.Team1} {selectedMatch?.title.WinTeam == selectedMatch?.title.Team1 ?
+                                            <h1 className="winner-team">Won</h1>
+                                            : <h1 className="loser-team">Lost</h1>
+                                        }
+                                        <div>
+                                            {teams?.get(selectedMatch?.title.Team1)[0].title.Side == "1" ? "Blue" : "Red"}
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <p>Patch {selectedMatch ? selectedMatch.title.Patch : "Loading"}</p>
+                                    </th>
+                                    <th>
+                                        <p>{selectedMatch ? selectedMatch.title.Gamelength : "Loading"}</p>
+                                    </th>
+                                </tr>
+                                <tr className="match-table-header">
+                                    <th>Spells</th>
+                                    <th>Items</th>
+                                    <th>KDA</th>
+                                    <th>CS</th>
+                                    <th>Gold</th>
+                                    <th>Damage</th>
+                                    <th>Champion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {teams ? teams.get(selectedMatch?.title.Team1).map((item: any) => (
+                                    <tr key={`team-details-${item.title.Name}`}>
+                                        <td>
+                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.title.Patch} />
+                                            {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
+                                                <SummonerImage key={idx} spell={val} />
+                                            ))}
+                                        </td>
+                                        <td className="d-flex flex-wrap player-items">
+                                            {item.title.Items.split(";").map((val: string, idx: number) => (
+                                                <ItemImage key={idx} item={val} patch={selectedMatch?.title.Patch} />
+                                            ))}
+                                        </td>
+                                        <td>
+                                            <span>{item.title.Kills}</span>
+                                            <span>/</span>
+                                            <span>{item.title.Deaths}</span>
+                                            <span>/</span>
+                                            <span>{item.title.Assists}</span>
+                                        </td>
+                                        <td>
+                                            <span>{item.title.CS}</span>
+                                        </td>
+                                        <td>
+                                            <span>{parseInt(item.title.Gold).toLocaleString("en-US")} </span>
+                                        </td>
+                                        <td>
+                                            <span>{parseInt(item.title.DamageToChampions).toLocaleString("en-US")} </span>
+                                        </td>
+                                        <td className="d-flex flex-row align-items-end">
+                                            <span>{championList(item.title.Champion)}</span>
+                                            <span> {item.title.Name}</span>
+                                        </td>
+                                    </tr>
+                                ))
+                                    : <tr></tr>}
+                            </tbody>
+                        </table>
+                        <hr></hr>
+                        <table className="match-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        {selectedMatch?.title.Team2} {selectedMatch?.title.WinTeam == selectedMatch?.title.Team2 ?
+                                            <h1 className="winner-team">Won</h1>
+                                            : <h1 className="loser-team">Lost</h1>
+                                        }
+                                        <div>
+                                            {teams?.get(selectedMatch?.title.Team2)[0].title.Side == "1" ? "Blue" : "Red"}
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr className="match-table-header">
+                                    <th>Spells</th>
+                                    <th>Items</th>
+                                    <th>KDA</th>
+                                    <th>CS</th>
+                                    <th>Gold</th>
+                                    <th>Damage</th>
+                                    <th>Champion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {teams ? teams.get(selectedMatch?.title.Team2).map((item: any) => (
+                                    <tr key={`team-details-${item.title.Name}`}>
+                                        <td>
+                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.title.Patch} />
+                                            {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
+                                                <SummonerImage key={idx} spell={val} />
+                                            ))}
+                                        </td>
+                                        <td className="d-flex flex-wrap player-items">
+                                            {item.title.Items.split(";").map((val: string, idx: number) => (
+                                                <ItemImage key={idx} item={val} patch={selectedMatch?.title.Patch} />
+                                            ))}
+                                        </td>
+                                        <td>
+                                            <span>{item.title.Kills}</span>
+                                            <span>/</span>
+                                            <span>{item.title.Deaths}</span>
+                                            <span>/</span>
+                                            <span>{item.title.Assists}</span>
+                                        </td>
+                                        <td>
+                                            <span>{item.title.CS}</span>
+                                        </td>
+                                        <td>
+                                            <span>{parseInt(item.title.Gold).toLocaleString("en-US")} </span>
+                                        </td>
+                                        <td>
+                                            <span>{parseInt(item.title.DamageToChampions).toLocaleString("en-US")} </span>
+                                        </td>
+                                        <td className="d-flex flex-row align-items-end">
+                                            <span>{championList(item.title.Champion)}</span>
+                                            <span> {item.title.Name}</span>
+                                        </td>
+                                    </tr>
+                                ))
+                                    : <tr></tr>}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

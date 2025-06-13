@@ -32,7 +32,7 @@ function Leagues() {
     if (error) return 'An error has occurred: ' + error.message;
 
     if (data) {
-        const [series, future, tName] = groupMatchesIntoSeries(data);
+        const [series, future, tName, international] = groupMatchesIntoSeries(data);
         return (
             <div className="d-flex flex-column">
                 <div id="leagueBanner" className="team-card">
@@ -40,14 +40,18 @@ function Leagues() {
                         <h1>{leagueName}</h1>
                     </div>
                     <div>
-                        {[...series.entries()].map(([key, value, idx]) => (
+                        {!international ? [...series.entries()].map(([key, value, idx]) => (
                             <button key={`${idx}-${key}`} onClick={() => { setSelectedTournament(value); setTournamentString(value.values().next().value[0].title.OverviewPage) }} className="btn btn-text">{key}</button>
-                        ))}
+                        )) : ""}
                     </div>
+                </div>
+                <div className="d-flex">
+                    <h1 className="team-card"></h1>
                 </div>
                 <div className="d-flex p-2 justify-content-around">
                     <div>
-                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : "Loading"}
+                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : ""}
+                        {international ? <MatchDayList series={series} tournamentName={tName} /> : ""}
                     </div>
                     <div>
                         {selectedTournament ? <Standings leagueName={tournamentString ?? ""} tournamentName={tName} /> : "Loading"}
@@ -71,7 +75,6 @@ function MatchDayList({ series, tournamentName }: { series: any; tournamentName:
             {[...series.entries()].map(([key, value], index) => (
                 <div key={`${index} - ${key}`} className="container">
                     <div>
-                        <h1 className="date-text">{key}</h1>
                         <MatchCard matches={value} tournamentName={tournamentName} />
                     </div>
                 </div>

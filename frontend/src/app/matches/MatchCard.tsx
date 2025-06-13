@@ -21,16 +21,21 @@ function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: 
     return (
         <div>
             {[...series.entries()].map(([key, value], index) => (
-                <div key={`${index} - ${key}`} className="d-flex">
-                    <div id="matchCard" className="d-flex justify-content-center flex-wrap">
-                        <Link to={"/match_details"} state={{ value, tournamentName }}>
+                <div key={`${index} - ${key}`}>
+                    <Link id="matchCard" className="d-flex justify-content-around match-link align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
+                        <div>
                             <span>{value[0].title.Team1} </span>
+                        </div>
+                        <div className="match-link-score d-flex gap-2">
                             <span>{value[0].title.Team1Score}</span>
-                            -
-                            <span>{value[0].title.Team2Score} </span>
+                            <div>|</div>
+                            <span>{value[0].title.Team2Score}</span>
+                        </div>
+                        <div>
                             <span>{value[0].title.Team2}</span>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
+
                 </div>
             ))}
         </div>

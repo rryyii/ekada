@@ -6,14 +6,6 @@ import { Link } from "react-router";
  * @category League
  */
 function MainPage() {
-    const leagues = {
-        "LPL": "/assets/LPL_2020_logo.png",
-        "LCK": "/assets/LCK_2021_logo.png",
-        "LEC": "/assets/LEC-2019_logo.png",
-        "LTA North": "/assets/LTA_North.png",
-        "LTA South": "/assets/LTA_South.png"
-    };
-
     return (
         <div className="container">
             <div className="row">
@@ -42,6 +34,23 @@ function MainPage() {
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA South"} >
                         <h1>LTA South</h1>
+                    </Link>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col league-div">
+                    <Link to={"/leagues/" + "First Stand"} >
+                        <h1>First Stand</h1>
+                    </Link>
+                </div>
+                <div className="col league-div">
+                    <Link to={"/leagues/" + "MSI"} >
+                        <h1>MSI</h1>
+                    </Link>
+                </div>
+                <div className="col league-div">
+                    <Link to={"/leagues/" + "Worlds"} >
+                        <h1>Worlds</h1>
                     </Link>
                 </div>
             </div>
