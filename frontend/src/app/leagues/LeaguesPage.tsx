@@ -23,17 +23,20 @@ function MainPage() {
                     <Link to={"/leagues/" + "LEC"} >
                         <h1>LEC</h1>
                     </Link>
+
                 </div>
             </div>
             <div className="row">
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA North"} >
                         <h1>LTA North</h1>
+
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "LTA South"} >
                         <h1>LTA South</h1>
+
                     </Link>
                 </div>
             </div>
@@ -41,17 +44,20 @@ function MainPage() {
                 <div className="col league-div">
                     <Link to={"/leagues/" + "First Stand"} >
                         <h1>First Stand</h1>
+
                     </Link>
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "MSI"} >
                         <h1>MSI</h1>
                     </Link>
+
                 </div>
                 <div className="col league-div">
                     <Link to={"/leagues/" + "Worlds"} >
                         <h1>Worlds</h1>
                     </Link>
+
                 </div>
             </div>
         </div>

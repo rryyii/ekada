@@ -6,7 +6,6 @@ import { Link } from "react-router";
  * @param matches Data holding the current list of matches for the selected league.
  * @param tournamentName A string of the current tournament.
  * @category Match
- * 
  */
 function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: string }) {
     const series = new Map();
@@ -35,7 +34,6 @@ function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: 
                             <span>{value[0].title.Team2}</span>
                         </div>
                     </Link>
-
                 </div>
             ))}
         </div>

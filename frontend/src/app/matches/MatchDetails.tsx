@@ -17,8 +17,9 @@ function MatchDetails() {
     const [queryKey, setQueryKey] = useState(0);
 
     const { data } = useQuery({
-        queryKey: [`matchData-${selectedMatch?.title.MatchId}`, selectedMatch?.title.MatchId, queryKey],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match/${encodeURIComponent(selectedMatch?.title.MatchId)}/${queryKey}`).then((res) => res.json()),
+        queryKey: [`matchData-${selectedMatch?.MatchId}`, selectedMatch?.MatchId, queryKey],
+        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match/${encodeURIComponent(selectedMatch?.MatchId ?? "")}/${queryKey}`)
+            .then((res) => res.json()),
         enabled: !!selectedMatch && !!queryKey,
         refetchOnWindowFocus: true,
         staleTime: 0,
@@ -29,39 +30,39 @@ function MatchDetails() {
             setTeams(groupPlayersIntoTeams(data));
         }
         if (value && queryKey == 0) {
-            setSelectedMatch(value[0]);
+            setSelectedMatch(value[0].title);
             setQueryKey(1);
         }
-
     }, [data])
+
     return (
         <div className="d-flex flex-column">
             <div id="match-details" className="d-flex flex-col justify-content-evenly">
                 <div id="match-content">
                     <div className="match-btns">
                         {value.map((item: any, index: number) => (
-                            <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1); }}>{index + 1}</button>
+                            <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item.title); setQueryKey(index + 1); }}>{index + 1}</button>
                         ))}
-                        <a className="btn btn-light" target="_blank" href={selectedMatch ? selectedMatch.title.VOD : "Loading"}>
+                        <a className="btn btn-light" target="_blank" href={selectedMatch ? selectedMatch.VOD : "Loading"}>
                             VOD
                         </a>
                     </div>
                     <div className="d-flex flex-col justify-content-around">
                         <div className="match-team1 d-flex">
-                            <Link to={`/team/${selectedMatch?.title.Team1}/${tournamentName}`}>
-                                <h1>{selectedMatch ? selectedMatch.title.Team1 : "No Team 1 Found"}</h1>
+                            <Link to={`/team/${selectedMatch?.Team1}/${tournamentName}`}>
+                                <h1>{selectedMatch ? selectedMatch.Team1 : "No Team 1 Found"}</h1>
                             </Link>
                         </div>
                         <div className="match-team2">
-                            <Link to={`/team/${selectedMatch?.title.Team2}/${tournamentName}`}>
-                                <h1>{selectedMatch ? selectedMatch.title.Team2 : "No Team 2 Found"}</h1>
+                            <Link to={`/team/${selectedMatch?.Team2}/${tournamentName}`}>
+                                <h1>{selectedMatch ? selectedMatch.Team2 : "No Team 2 Found"}</h1>
                             </Link>
                         </div>
                     </div>
                     <div>
                         <div id="match-bans" className="d-flex flex-row justify-content-around">
-                            {selectedMatch ? championList(selectedMatch.title.Team1Bans) : "Fetching Team 1 Bans"}
-                            {selectedMatch ? championList(selectedMatch.title.Team2Bans) : "Fetching Team 2 Bans"}
+                            {selectedMatch ? championList(selectedMatch.Team1Bans) : "Fetching Team 1 Bans"}
+                            {selectedMatch ? championList(selectedMatch.Team2Bans) : "Fetching Team 2 Bans"}
                         </div>
                         {selectedMatch ? <Objectives selectedMatch={selectedMatch} /> : "Failed to display objectives"}
                     </div>
@@ -70,19 +71,19 @@ function MatchDetails() {
                             <thead>
                                 <tr>
                                     <th>
-                                        {selectedMatch?.title.Team1} {selectedMatch?.title.WinTeam == selectedMatch?.title.Team1 ?
+                                        {selectedMatch?.Team1} {selectedMatch?.WinTeam == selectedMatch?.Team1 ?
                                             <h1 className="winner-team">Won</h1>
                                             : <h1 className="loser-team">Lost</h1>
                                         }
                                         <div>
-                                            {teams?.get(selectedMatch?.title.Team1)[0].title.Side == "1" ? "Blue" : "Red"}
+                                            {teams?.get(selectedMatch?.Team1)[0].title.Side == "1" ? "Blue" : "Red"}
                                         </div>
                                     </th>
                                     <th>
-                                        <p>Patch {selectedMatch ? selectedMatch.title.Patch : "Loading"}</p>
+                                        <p>Patch {selectedMatch ? selectedMatch.Patch : "Loading"}</p>
                                     </th>
                                     <th>
-                                        <p>{selectedMatch ? selectedMatch.title.Gamelength : "Loading"}</p>
+                                        <p>{selectedMatch ? selectedMatch.Gamelength : "Loading"}</p>
                                     </th>
                                 </tr>
                                 <tr className="match-table-header">
@@ -96,17 +97,17 @@ function MatchDetails() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {teams ? teams.get(selectedMatch?.title.Team1).map((item: any) => (
+                                {teams ? teams.get(selectedMatch?.Team1).map((item: any) => (
                                     <tr key={`team-details-${item.title.Name}`}>
                                         <td>
-                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.title.Patch} />
+                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.Patch ?? ""} />
                                             {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
                                                 <SummonerImage key={idx} spell={val} />
                                             ))}
                                         </td>
                                         <td className="d-flex flex-wrap player-items">
                                             {item.title.Items.split(";").map((val: string, idx: number) => (
-                                                <ItemImage key={idx} item={val} patch={selectedMatch?.title.Patch} />
+                                                <ItemImage key={idx} item={val} patch={selectedMatch?.Patch ?? ""} />
                                             ))}
                                         </td>
                                         <td>
@@ -139,12 +140,12 @@ function MatchDetails() {
                             <thead>
                                 <tr>
                                     <th>
-                                        {selectedMatch?.title.Team2} {selectedMatch?.title.WinTeam == selectedMatch?.title.Team2 ?
+                                        {selectedMatch?.Team2} {selectedMatch?.WinTeam == selectedMatch?.Team2 ?
                                             <h1 className="winner-team">Won</h1>
                                             : <h1 className="loser-team">Lost</h1>
                                         }
                                         <div>
-                                            {teams?.get(selectedMatch?.title.Team2)[0].title.Side == "1" ? "Blue" : "Red"}
+                                            {teams?.get(selectedMatch?.Team2)[0].title.Side == "1" ? "Blue" : "Red"}
                                         </div>
                                     </th>
                                 </tr>
@@ -159,17 +160,17 @@ function MatchDetails() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {teams ? teams.get(selectedMatch?.title.Team2).map((item: any) => (
+                                {teams ? teams.get(selectedMatch?.Team2).map((item: any) => (
                                     <tr key={`team-details-${item.title.Name}`}>
                                         <td>
-                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.title.Patch} />
+                                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.Patch ?? ""} />
                                             {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
                                                 <SummonerImage key={idx} spell={val} />
                                             ))}
                                         </td>
                                         <td className="d-flex flex-wrap player-items">
                                             {item.title.Items.split(";").map((val: string, idx: number) => (
-                                                <ItemImage key={idx} item={val} patch={selectedMatch?.title.Patch} />
+                                                <ItemImage key={idx} item={val} patch={selectedMatch?.Patch ?? ""} />
                                             ))}
                                         </td>
                                         <td>
@@ -213,6 +214,7 @@ function MatchDetails() {
 function Objectives({ selectedMatch }: { selectedMatch: MatchData }) {
     return (
         <div>
+        
         </div>
     );
 }

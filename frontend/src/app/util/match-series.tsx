@@ -92,6 +92,34 @@ export function parsePlayersIntoRoles(players: string, roles: string) {
     return map;
 }
 
-export interface MatchData {
-    title: any,
+export type MatchData = {
+    MatchId: number,
+    Team1: string,
+    Team2: string,
+    VOD: string,
+    Team1Bans: string,
+    Team2Bans: string,
+    Patch: string,
+    Gamelength: string,
+    WinTeam: string,
+    Team1Barons: number,
+    Team2Barons: number,
+    Team1Dragons: number,
+    Team2Dragons: number,
+    Team1Atakhans: number,
+    Team2Atakhans: number,
+    Team1RiftHeralds: number,
+    Team2RiftHeralds: number,
+    Team1Towers: number,
+    Team2Towers: number,
+    Team1VoidGrubs: number,
+    Team2VoidGrubs: number,
+}
+
+export type StandingsData = {
+    Place: string,
+    Team: string,
+    WinSeries: string,
+    LossSeries: string, 
+    Points: number,
 }

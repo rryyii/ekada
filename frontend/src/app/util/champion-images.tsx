@@ -18,12 +18,22 @@ export function championList(champions: string) {
             </div>
         );
     }
+    console.log("Champion list is empty.")
 }
 
+/**
+ * A helper function that returns an image component referencing the requested item.
+ *
+ * @param item Name of the item 
+ * @param patch Relevant patch for the requested item
+ * @returns An image component of the fetched item
+ * @category Util
+ */
 export function ItemImage({ item, patch }: { item: string, patch: string }) {
     const { error, data } = useQuery({
         queryKey: [`leagueData-${item}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/item/${encodeURIComponent(item)}/${encodeURIComponent(patch)}`).then((res) => res.json()),
+        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/item/${encodeURIComponent(item)}/${encodeURIComponent(patch)}`)
+            .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
@@ -33,8 +43,15 @@ export function ItemImage({ item, patch }: { item: string, patch: string }) {
             <img className="base-img" loading="lazy" src={`${data.url}`} width="35" height="35" draggable="false" alt={`${item} image`} />
         );
     }
+    console.error("Failed to fetch image of the given item.");
 }
 
+ /* A helper function that returns an image component referencing the requested summoner spell.
+ *
+ * @param item Name of the spell 
+ * @returns An image component of the fetched spell
+ * @category Util
+ */
 export function SummonerImage({ spell }: { spell: string }) {
     const { data } = useQuery({
         queryKey: [`leagueData-${spell}`],
@@ -45,8 +62,8 @@ export function SummonerImage({ spell }: { spell: string }) {
 
     if (spell && data) {
         return (
-
             <img className="base-img" loading="lazy" src={`${data.url}`} width="35" height="35" draggable="false" alt={`${spell} image`} />
         )
     }
+    console.error("Failed to fetch correct summoner spell image.")
 }

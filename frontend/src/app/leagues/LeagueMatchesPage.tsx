@@ -1,14 +1,15 @@
 import { useParams } from "react-router";
 import Standings from "./StandingsPage.tsx";
 import MatchCard from "../matches/MatchCard.tsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
     useQuery,
 } from '@tanstack/react-query'
 
 /**
- * Returns a component that lists both the current and future match schedule for the current league. Also calls the Standings component.
+ * Returns a component that lists both the current and future match schedule for the current league. 
+ * Also calls the Standings component to display (if exists) standings for the tournament.
  *
  * @category League
  */
@@ -22,7 +23,8 @@ function Leagues() {
 
     const { isPending, error, data } = useQuery({
         queryKey: [`leagueData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match_schedule/${path}`).then((res) => res.json()),
+        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match_schedule/${path}`)
+            .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
@@ -41,20 +43,20 @@ function Leagues() {
                     </div>
                     <div>
                         {!international ? [...series.entries()].map(([key, value, idx]) => (
-                            <button key={`${idx}-${key}`} onClick={() => { setSelectedTournament(value); setTournamentString(value.values().next().value[0].title.OverviewPage) }} className="btn btn-text">{key}</button>
+                            <button key={`${idx}-${key}`} onClick={() => {
+                                setSelectedTournament(value); setTournamentString(value.values().next().value[0].title.OverviewPage)
+                            }} className="btn btn-text">{key}
+                            </button>
                         )) : ""}
                     </div>
                 </div>
-                <div className="d-flex">
-                    <h1 className="team-card"></h1>
-                </div>
                 <div className="d-flex p-2 justify-content-around">
                     <div>
-                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : ""}
+                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : "Loading match list"}
                         {international ? <MatchDayList series={series} tournamentName={tName} /> : ""}
                     </div>
                     <div>
-                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} tournamentName={tName} /> : "Loading"}
+                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} /> : "Loading tournament standings"}
                     </div>
                 </div>
             </div>);
@@ -74,9 +76,7 @@ function MatchDayList({ series, tournamentName }: { series: any; tournamentName:
         <div>
             {[...series.entries()].map(([key, value], index) => (
                 <div key={`${index} - ${key}`} className="container">
-                    <div>
-                        <MatchCard matches={value} tournamentName={tournamentName} />
-                    </div>
+                    <MatchCard matches={value} tournamentName={tournamentName} />
                 </div>
             ))}
         </div>
