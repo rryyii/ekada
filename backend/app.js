@@ -7,6 +7,7 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import NodeCache from 'node-cache';
+import { RequestBuilder } from './util/RequestBuilder.js';
 import leagueImagesRouter from './routes/images-routes.js';
 import leagueDetailsRouter from './routes/league-routes.js';
 import leagueTeamRouter from './routes/team-routes.js';
@@ -45,7 +46,9 @@ async function connectRedis() {
     }
 }
 
-export async function getFromPandaScore(apiUrl, clientKey) {
+export const builder = new RequestBuilder(baseUrl);
+
+export async function checkCache(apiUrl, clientKey) {
     const currentclient = await cache.get(clientKey);
     if (currentclient) {
         return currentclient;

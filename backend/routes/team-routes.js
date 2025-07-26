@@ -1,18 +1,13 @@
 import express from 'express';
-import { getFromPandaScore, baseUrl } from '../app.js';
+import { checkCache, builder} from '../app.js';
 const router = express.Router();
 
 router.get("/api/team_info/:tournament_name/:team_name", async (req, res) => {
     const teamName = req.params.team_name;
     const tournamentName = req.params.tournament_name;
-    const params = new URLSearchParams({
-        tables: "TournamentRosters=TR",
-        fields: "TR.Team,TR.RosterLinks",
-        where: `TR.Team="${teamName}" AND TR.Tournament="${tournamentName}"`,
-    });
-    const apiUrl = `${baseUrl}&${params.toString()}`;
+    const apiUrl = await builder.fetchTeamInfo(teamName, tournamentName);
     const clientKey = `team-roster-${encodeURIComponent(teamName)}`;
-    const data = await getFromPandaScore(apiUrl, clientKey);
+    const data = await checkCache(apiUrl, clientKey);
     res.json(data);
 });
 
