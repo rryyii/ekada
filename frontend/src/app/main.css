@@ -1,6 +1,7 @@
 :root {
     --bg-primary: #0c0e0a;
     --bg-secondary: #1d1e29;
+    --bg-tertiary: #16171f;
     --text-color: white;
 }
 
@@ -10,18 +11,27 @@
     background-color: var(--bg-primary);
     height: 100%;
     min-height: 100vh;
+    max-width: 100vw;
     color: white;
+}
+
+body {
+    font-family: "Jost", sans-serif !important;
 }
 
 .navbar {
     background-color: #171815;
-    margin-bottom: 1rem;
+    margin: 0 0 3rem 0;
 }
 
 .nav-link {
     color: white !important;
+    transition: color 5s ease-in-out;
 }
 
+.nav-link:hover {
+   color: teal !important;
+}
 
 
 /* TeamPage and LeagueMatchesPage  */
@@ -33,20 +43,41 @@
     border-radius: 0.5rem;
 }
 
+.player-roster {
+    background-color: var(--bg-secondary);
+    border-radius: .5rem;
+    padding: 1rem;
+    width: 75vw;
+    margin: 1rem 0 0 0;
+}
+
+
 .league-div {
     background-color: var(--bg-secondary);
+    border-radius: .5rem;
+    margin: 1rem;
     width: 10vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    transition: background-color .15s ease-in-out;
+}
+
+.league-div:hover {
+    background-color: var(--bg-tertiary);
 }
 
 .date-text {
+    padding: .5rem;
+    border-radius: 0.5rem;
     font-size: 2rem;
 }
 
 #leagueBanner {
     border-radius: 5px;
-    padding: 10px;
+    margin: 0 0 0 3rem;
+    padding: 2rem;
     max-width: 50vw;
 }
 
@@ -59,41 +90,166 @@
 
 
 
-
-
 /* MatchDetails and MatchCard */
-
 .match-container {
     background-color: var(--bg-secondary);
+    opacity: 90%;
     border-radius: .5rem;
-    padding: 1rem;
     margin: 1rem;
+    width: 100%;
+}
+
+.match-team-detail-banner {
+    background-color: #31313c;
+    padding: 1rem;
+    border-radius: .5rem;
+    width: 100%;
+}
+
+.match-link {
+    text-decoration: none;
+    color: white;
+    transition: background-color .15s ease-in-out;
+}
+
+.match-link:hover {
+    background-color: var(--bg-tertiary) !important;
+}
+
+.match-link-score {
+    border-radius: .5rem;
+}
+
+.match-table {
+    width: 100%;
+}
+
+.match-table-header {
+    width: 100%;
 }
 
 #matchCard {
+    text-decoration: none;
+    color: white;
     background-color: var(--bg-secondary);
     border-radius: 5px;
     margin: .5rem;
-    padding: .5rem;
-    height: 5vh;
-    width: 50vw;
+    padding: 1rem;
+    transition: background-color 0.15s ease-in-out;
 }
 
-.match-team1, .match-team2 {
+#matchCard:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.match-team1,
+.match-team2 {
     background-color: var(--bg-secondary);
     padding: 1rem;
     margin: 1rem;
     border-radius: .5rem;
+}
+
+.match-objective-div {
+    background-color: var(--bg-secondary);
+    padding: .5rem;
+    border-radius: 1rem;
+    width: 5vw;
 }
 
 .obj-container {
     background-color: var(--bg-secondary);
-    padding: 1rem;
+    padding: .5rem;
     border-radius: .5rem;
     display: flex;
     margin: 1rem 0 1rem 0;
 }
 
+.winner-team,
+.loser-team {
+    font-size: 1rem;
+}
+
+.winner-team {
+    color: teal;
+}
+
+.loser-team {
+    color: red;
+}
+
 .match-btn {
-    margin: 1rem;
+    margin: .5rem;
+    background-color: teal !important;
+    border: none !important;
+    width: 5vw;
+}
+
+.player-items {
+    width: 8vw;
+}
+
+.btn-text {
+    color: white !important;
+}
+
+.btn-text:hover {
+    color: teal !important;
+}
+
+#match-content {
+    width: 80vw;
+    max-width: 80vw;
+}
+
+
+
+/* Standings */
+.standings-table {
+    border-radius: 1rem;
+}
+
+ td {
+    padding: 1rem;
+}
+
+
+/*  Images  */
+.base-img {
+    border-radius: 1.5rem;
+}
+
+.team-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.league-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+/* Search */
+#search-bar {
+    border-radius: .75rem;
+    padding: .25rem;
+    max-width: 10vw;
+    max-height: 4vh;
+    border: none;
+}
+
+
+/* Footer  */
+.main-footer {
+    border-top: solid grey .025rem;
+    margin: 2rem 0 0 0;
+    padding: 2rem;
+    max-height: 20vh;
+    max-width: 100vw;
+}
+
+.footer-disclaimer {
+    max-width: 50vw;
 }

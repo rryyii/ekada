@@ -6,9 +6,8 @@ import { Link } from "react-router";
  * @param matches Data holding the current list of matches for the selected league.
  * @param tournamentName A string of the current tournament.
  * @category Match
- * 
  */
-function MatchCard({ matches, tournamentName }: { matches: any ; tournamentName: string }) {
+function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: string }) {
     const series = new Map();
     for (const match of matches) {
         if (series.get(match.title.MatchId)) {
@@ -21,18 +20,20 @@ function MatchCard({ matches, tournamentName }: { matches: any ; tournamentName:
     return (
         <div>
             {[...series.entries()].map(([key, value], index) => (
-                <div key={`${index} - ${key}`} className="d-flex">
-                    <div id="matchCard" className="d-flex justify-content-center">
-                        <div className="d-flex">
-                            <Link to={"/match_details"} state={{value, tournamentName}}>
-                                <span>{value[0].title.Team1} </span>
-                                <span>{value[0].title.Team1Score}</span>
-                                -
-                                <span>{value[0].title.Team2Score} </span>
-                                <span>{value[0].title.Team2}</span>
-                            </Link>
+                <div key={`${index} - ${key}`} className="card-container">
+                    <Link id="matchCard" className="row justify-content-center align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
+                        <div className="col">
+                            <img src={`/assets/teams/${value[0].title.Team1}.png`} loading="lazy" className="team-logo"/>
                         </div>
-                    </div>
+                        <div className="col d-flex gap-3">
+                            <p>{value[0].title.Team1Score}</p>
+                            <p>-</p>
+                            <p>{value[0].title.Team2Score}</p>
+                        </div>
+                        <div className="col">
+                            <img src={`/assets/teams/${value[0].title.Team2}.png`} loading="lazy" className="team-logo"/>
+                        </div>
+                    </Link>
                 </div>
             ))}
         </div>

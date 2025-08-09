@@ -1,7 +1,8 @@
 import {
     useQuery,
 } from '@tanstack/react-query'
-import { Link } from "react-router";
+
+import { StandingsData } from '../util/match-series';
 
 /**
  * Returns a component that displays the current league's standings, including (wins, losses, and number). 
@@ -10,10 +11,11 @@ import { Link } from "react-router";
  * @param tournamentName A string of the current tournament.
  * @category League
  */
-function Standings({ leagueName, tournamentName}: { leagueName: string ; tournamentName: string}) {
+function Standings({ leagueName }: { leagueName: string }) {
     const { isPending, error, data } = useQuery({
         queryKey: [`standingData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`).then((res) => res.json()),
+        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`)
+            .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
@@ -24,30 +26,26 @@ function Standings({ leagueName, tournamentName}: { leagueName: string ; tournam
 
     if (data && data.cargoquery.length > 0) {
         return (
-            <div>
-                <table className="table table-striped">
+                <table className="standings-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col"></th>
                             <th scope="col">Team</th>
                             <th scope="col">Record</th>
+                            <th scope="col">Streak</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.cargoquery.map((item: { title: { Place: string, Team: string, WinSeries: string, LossSeries: string } }) => (
+                        {data.cargoquery.map((item: { title: StandingsData}) => (
                             <tr key={`${item.title.Place} - ${item.title.Team}`}>
                                 <td>{item.title.Place}</td>
-                                <td>
-                                    <Link to={`/team/${encodeURIComponent(item.title.Team)}/${encodeURIComponent(tournamentName)}`}>
-                                        {item.title.Team}
-                                    </Link>
-                                </td>
+                                <td>{item.title.Team}</td>
                                 <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
+                                <td>{item.title.Streak} {item.title.StreakDirection}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-            </div>
         );
     }
 }

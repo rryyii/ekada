@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /**
  * Returns a component that handles the application's searching function for easy access to team data.
@@ -7,10 +7,13 @@ import { useState } from "react";
  */
 function Search() {
     const [output, changeOutput] = useState("");
+    useEffect(() => {
+        
+    }, []);
     return (
         <div>
             <form>
-                <input value={output} onChange={e => changeOutput(e.target.value)} type="query" placeholder="Search" />
+                <input id="search-bar" value={output} onChange={e => changeOutput(e.target.value)} type="query" placeholder="Search" />
             </form>
             <p>{output}</p>
         </div>
