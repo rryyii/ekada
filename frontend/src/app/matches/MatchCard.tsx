@@ -21,17 +21,17 @@ function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: 
         <div>
             {[...series.entries()].map(([key, value], index) => (
                 <div key={`${index} - ${key}`} className="card-container">
-                    <Link id="matchCard" className="d-flex justify-content-around match-link align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
-                        <div>
-                            <span>{value[0].title.Team1} </span>
+                    <Link id="matchCard" className="row justify-content-center align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
+                        <div className="col">
+                            <img src={`/assets/teams/${value[0].title.Team1}.png`} loading="lazy" className="team-logo"/>
                         </div>
-                        <div className="match-link-score d-flex gap-2">
-                            <span>{value[0].title.Team1Score}</span>
-                            <div>|</div>
-                            <span>{value[0].title.Team2Score}</span>
+                        <div className="col d-flex gap-3">
+                            <p>{value[0].title.Team1Score}</p>
+                            <p>-</p>
+                            <p>{value[0].title.Team2Score}</p>
                         </div>
-                        <div>
-                            <span>{value[0].title.Team2}</span>
+                        <div className="col">
+                            <img src={`/assets/teams/${value[0].title.Team2}.png`} loading="lazy" className="team-logo"/>
                         </div>
                     </Link>
                 </div>

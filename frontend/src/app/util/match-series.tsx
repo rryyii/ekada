@@ -85,11 +85,16 @@ export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
 export function parsePlayersIntoRoles(players: string, roles: string) {
     const playersList = players.split(";;");
     const rolesList = roles.split(";;");
-    const map = new Map();
+    const playerMap = new Map();
+    const coachMap = new Map();
     for (let i = 0; i < playersList.length; i++) {
-        map.set(playersList[i], rolesList[i]);
+        if (rolesList[i] == "Coach") {
+            coachMap.set(playersList[i], rolesList[i]);
+        } else {
+            playerMap.set(playersList[i], rolesList[i]);
+        }
     }
-    return map;
+    return [playerMap, coachMap];
 }
 
 export type MatchData = {
@@ -122,4 +127,6 @@ export type StandingsData = {
     WinSeries: string,
     LossSeries: string, 
     Points: number,
+    Streak: number,
+    StreakDirection: string,
 }

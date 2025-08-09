@@ -8,17 +8,41 @@ import { useQuery } from "@tanstack/react-query";
  */
 export function championList(champions: string) {
     if (champions) {
+        const data = handleNameCases(champions.split(","));
         return (
             <div className="d-flex flex-row">
-                {champions.split(",").map((champion, index) => (
+                {data.map((champion, index) => (
                     <div key={index}>
-                        <img className="base-img" loading="lazy" src={`https://ddragon.leagueoflegends.com/cdn/15.11.1/img/champion/${champion.replace(/\s/g, '').replace(/'/g, '')}.png`} width="60" height="60" draggable="false" alt={`${champion} image`} />
+                        <img className="base-img" loading="lazy" src={`https://ddragon.leagueoflegends.com/cdn/15.15.1/img/champion/${champion.replace(/\s/g, '').replace(/'/g, '')}.png`} width="40" height="40" draggable="false" alt={`${champion} image`} />
                     </div>
                 ))}
             </div>
         );
     }
-    console.log("Champion list is empty.")
+}
+
+function handleNameCases(championData : Array<string>) {
+        let kaisaIndex = championData.indexOf("Kai'Sa");
+        let wuIndex = championData.indexOf("Wukong");
+        let renIndex = championData.indexOf("Renata Glasc");
+        let belIndex = championData.indexOf("Bel'Veth");
+        let choIndex = championData.indexOf("Cho'Gath");
+        if (kaisaIndex != -1) {
+            championData[kaisaIndex] = "Kaisa";
+        }
+        if (wuIndex != -1) {
+            championData[wuIndex] = "MonkeyKing";
+        }
+        if (renIndex != -1) {
+            championData[renIndex] = "Renata";
+        }
+        if (belIndex != -1) {
+            championData[belIndex] = "Belveth";
+        }
+        if (choIndex != -1) {
+            championData[choIndex] = "Chogath";
+        }
+        return championData;
 }
 
 /**
@@ -43,7 +67,6 @@ export function ItemImage({ item, patch }: { item: string, patch: string }) {
             <img className="base-img" loading="lazy" src={`${data.url}`} width="35" height="35" draggable="false" alt={`${item} image`} />
         );
     }
-    console.error("Failed to fetch image of the given item.");
 }
 
  /* A helper function that returns an image component referencing the requested summoner spell.
@@ -65,5 +88,4 @@ export function SummonerImage({ spell }: { spell: string }) {
             <img className="base-img" loading="lazy" src={`${data.url}`} width="35" height="35" draggable="false" alt={`${spell} image`} />
         )
     }
-    console.error("Failed to fetch correct summoner spell image.")
 }

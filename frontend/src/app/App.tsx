@@ -1,8 +1,9 @@
 import Leagues from "./leagues/LeagueMatchesPage.js";
 import NavBar from "./layout/NavBar.js";
-import MainPage from "./leagues/LeaguesPage.js";
+import MainPage from "./leagues/LeaguePage.js";
 import Team from "./teams/TeamPage.js";
 import MatchDetails from "./matches/MatchDetails.js";
+import Footer from "./layout/Footer.js"
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import {
   QueryClient,
@@ -23,6 +24,7 @@ function App() {
             <Route path="/team/:teamName/:leagueName" element={<Team />} />
             <Route path="/match_details" element={<MatchDetails />} />
           </Routes>
+          <Footer />
         </Router>
       </QueryClientProvider>
     </>
