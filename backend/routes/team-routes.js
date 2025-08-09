@@ -1,21 +1,14 @@
 import express from 'express';
-import { checkCache, builder} from '../app.js';
+import { checkCache, builder } from '../app.js';
 const router = express.Router();
 
-router.get("/api/team_info/:tournament_name/:team_name", async (req, res) => {
+router.get("/api/team_info/:team_name/:tournament_name", async (req, res) => {
     const teamName = req.params.team_name;
     const tournamentName = req.params.tournament_name;
-    const apiUrl = await builder.fetchTeamInfo(teamName, tournamentName);
+    const apiUrl = await builder.fetchTeamData(teamName, tournamentName);
     const clientKey = `team-roster-${encodeURIComponent(teamName)}`;
     const data = await checkCache(apiUrl, clientKey);
     res.json(data);
-});
-
-
-router.get("/api/team_client/:team_name/:league_name", async (req, res) => {
-    const leagueName = req.params.league_name;
-    const teamName = req.params.team_name;
-    res.json(matches);
 });
 
 export default router;

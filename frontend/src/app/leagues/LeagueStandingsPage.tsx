@@ -26,13 +26,13 @@ function Standings({ leagueName }: { leagueName: string }) {
 
     if (data && data.cargoquery.length > 0) {
         return (
-                <table className="table table-dark table-borderless table-striped standings-table">
+                <table className="standings-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col"></th>
                             <th scope="col">Team</th>
                             <th scope="col">Record</th>
-                            <th scope="col">Points</th>
+                            <th scope="col">Streak</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +41,7 @@ function Standings({ leagueName }: { leagueName: string }) {
                                 <td>{item.title.Place}</td>
                                 <td>{item.title.Team}</td>
                                 <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
-                                <td>{item.title.Points}</td>
+                                <td>{item.title.Streak} {item.title.StreakDirection}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
-import Standings from "./StandingsPage.tsx";
+import Standings from "./LeagueStandingsPage.tsx";
 import MatchCard from "../matches/MatchCard.tsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
     useQuery,
@@ -37,9 +37,10 @@ function Leagues() {
         const [series, future, tName, international] = groupMatchesIntoSeries(data);
         return (
             <div className="d-flex flex-column">
-                <div id="leagueBanner" className="team-card">
-                    <div>
+                <div id="leagueBanner" className="team-card shadow">
+                    <div className="d-flex align-items-center gap-3">
                         <h1>{leagueName}</h1>
+                        <img src={`/assets/${leagueName}.png`} className="league-logo" alt="league-logo"/>
                     </div>
                     <div>
                         {!international ? [...series.entries()].map(([key, value, idx]) => (
@@ -52,11 +53,11 @@ function Leagues() {
                 </div>
                 <div className="d-flex p-2 justify-content-around">
                     <div>
-                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : "Loading match list"}
+                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : ""}
                         {international ? <MatchDayList series={series} tournamentName={tName} /> : ""}
                     </div>
                     <div>
-                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} /> : "Loading tournament standings"}
+                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} /> : ""}
                     </div>
                 </div>
             </div>);
@@ -73,9 +74,10 @@ function Leagues() {
  */
 function MatchDayList({ series, tournamentName }: { series: any; tournamentName: string }) {
     return (
-        <div>
+        <div className="d-flex flex-column gap-4">
             {[...series.entries()].map(([key, value], index) => (
-                <div key={`${index} - ${key}`} className="container">
+                <div key={`${index} - ${key}`} className="container d-flex flex-column gap-1">
+                    <h2>{key}</h2>
                     <MatchCard matches={value} tournamentName={tournamentName} />
                 </div>
             ))}

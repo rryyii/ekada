@@ -15,9 +15,13 @@
     color: white;
 }
 
+body {
+    font-family: "Jost", sans-serif !important;
+}
+
 .navbar {
     background-color: #171815;
-    margin-bottom: 1rem;
+    margin: 0 1rem 1rem 0;
 }
 
 .nav-link {
@@ -51,7 +55,6 @@
 }
 
 .date-text {
-    background-color: red;
     padding: .5rem;
     border-radius: 0.5rem;
     font-size: 2rem;
@@ -69,8 +72,6 @@
     margin: 1rem;
     border-radius: .5rem;
 }
-
-
 
 
 
@@ -119,14 +120,23 @@
     border-radius: 5px;
     margin: .5rem;
     padding: .5rem;
-    width: 60vw;
+    width: 50vw;
+    max-width: 50vw;
 }
 
-.match-team1, .match-team2 {
+.match-team1,
+.match-team2 {
     background-color: var(--bg-secondary);
     padding: 1rem;
     margin: 1rem;
     border-radius: .5rem;
+}
+
+.match-objective-div {
+    background-color: var(--bg-secondary);
+    padding: .5rem;
+    border-radius: 1rem;
+    width: 5vw;
 }
 
 .obj-container {
@@ -137,7 +147,8 @@
     margin: 1rem 0 1rem 0;
 }
 
-.winner-team, .loser-team {
+.winner-team,
+.loser-team {
     font-size: 1rem;
 }
 
@@ -152,7 +163,7 @@
 .match-btn {
     margin: .5rem;
     background-color: teal !important;
-    border: none !important; 
+    border: none !important;
     width: 5vw;
 }
 
@@ -180,9 +191,23 @@
     border-radius: 1rem;
 }
 
+ td {
+    padding: 1rem;
+}
 
 
 /*  Images  */
 .base-img {
     border-radius: .5rem;
+}
+
+
+
+/* Search */
+#search-bar {
+    border-radius: .75rem;
+    padding: .25rem;
+    max-width: 10vw;
+    max-height: 4vh;
+    border: none;
 }

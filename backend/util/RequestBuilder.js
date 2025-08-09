@@ -53,7 +53,7 @@ export class RequestBuilder {
     async fetchTeamData(teamName, tournamentName) {
         const params = new URLSearchParams({
             tables: "TournamentRosters=TR",
-            fields: "TR.Team,TR.RosterLinks,TR.Roles",
+            fields: "TR.Team,TR.RosterLinks,TR.Roles,TR.Region",
             where: `TR.Tournament="${tournamentName}" AND TR.Team="${teamName}"`,
         });
         return `${this.baseUrl}&${params.toString()}`;

@@ -20,7 +20,7 @@ function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: 
     return (
         <div>
             {[...series.entries()].map(([key, value], index) => (
-                <div key={`${index} - ${key}`}>
+                <div key={`${index} - ${key}`} className="card-container">
                     <Link id="matchCard" className="d-flex justify-content-around match-link align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
                         <div>
                             <span>{value[0].title.Team1} </span>

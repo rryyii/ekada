@@ -9,55 +9,58 @@ function MainPage() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LCK"} >
-                        <h1>LCK</h1>
+                          <h1>LCK</h1>
                     </Link>
+              
                 </div>
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LPL"} >
                         <h1>LPL</h1>
                     </Link>
+                
                 </div>
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LEC"} >
-                        <h1>LEC</h1>
+                      <h1>LEC</h1>
                     </Link>
-
+     
                 </div>
             </div>
             <div className="row">
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LTA North"} >
-                        <h1>LTA North</h1>
+                                        <h1>LTA North</h1>
 
                     </Link>
                 </div>
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LTA South"} >
                         <h1>LTA South</h1>
-
                     </Link>
+
                 </div>
             </div>
             <div className="row">
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "First Stand"} >
-                        <h1>First Stand</h1>
-
+                    <h1>First Stand</h1>
                     </Link>
+    
                 </div>
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "MSI"} >
-                        <h1>MSI</h1>
+                                        <h1>MSI</h1>
+
                     </Link>
 
                 </div>
-                <div className="col league-div">
+                <div className="col league-div shadow">
                     <Link to={"/leagues/" + "Worlds"} >
-                        <h1>Worlds</h1>
+                     <h1>Worlds</h1>
                     </Link>
-
+    
                 </div>
             </div>
         </div>
