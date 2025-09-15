@@ -1,3 +1,6 @@
+/**
+ * Builder class to help with creating long GET requests to Leaguepedia.
+ */
 export class RequestBuilder {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;

@@ -3,6 +3,9 @@ import { checkCache, latestVersion } from '../app.js';
 const router = express.Router();
 
 
+/**
+ * Endpoint for summoner spell image.
+ */
 router.get("/api/summoner_spell/:spell_name", async (req, res) => {
     const spellName = req.params.spell_name;
     const apiUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/summoner.json`;
@@ -15,6 +18,9 @@ router.get("/api/summoner_spell/:spell_name", async (req, res) => {
     }
 });
 
+/**
+ * Endpoint for item image.
+ */
 router.get("/api/item/:item_name/:patch", async (req, res) => {
     const itemName = req.params.item_name;
     const apiUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/item.json`;

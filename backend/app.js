@@ -1,21 +1,19 @@
 import { createClient } from 'redis';
 import assert from 'assert';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../frontend/.env' });
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import NodeCache from 'node-cache';
 import { RequestBuilder } from './util/RequestBuilder.js';
 import leagueImagesRouter from './routes/images-routes.js';
 import leagueDetailsRouter from './routes/league-routes.js';
 import searchRouter from './routes/search-routes.js';
 import leagueTeamRouter from './routes/team-routes.js';
 import leagueMatchDetailsRouter from './routes/match-routes.js';
+dotenv.config({ path: '../frontend/.env' });
 
-const cache = new NodeCache();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -63,7 +61,7 @@ export async function checkCache(apiUrl, clientKey) {
         method: "GET",
     });
     const data = await response.json();
-    client.set(clientKey, JSON.stringify(data));
+    client.set(clientKey, JSON.stringify(data), {expiration: { type: "EX", value: 600}});
     return data;
 }
 
@@ -72,3 +70,5 @@ app.use(leagueDetailsRouter);
 app.use(leagueTeamRouter);
 app.use(leagueMatchDetailsRouter);
 app.use(searchRouter);
+
+export default app;
