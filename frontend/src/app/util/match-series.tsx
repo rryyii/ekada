@@ -2,6 +2,7 @@
  * A helper function that groups fetched series into two maps for both future and current matches.
  * 
  * @param rawMatches Data involving the current selected series to group.
+ * @returns An array of past series, future series, tournament name, and international series.
  * @category Util
  */
 export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
@@ -58,6 +59,7 @@ export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
  * A helper function that groups a list of players into a map with their relevant team.
  * 
  * @param rawPlayers Data involving a raw list of players to group.
+ * @returns A map including the players categorized into their teams.
  * @category Util
  */
 export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
@@ -80,6 +82,7 @@ export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
  * 
  * @param players Data including the team's players
  * @param roles Data including the team's roles
+ * @returns An array including both coach and player maps.
  * @category Util
  */
 export function parsePlayersIntoRoles(players: string, roles: string) {

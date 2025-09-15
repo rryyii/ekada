@@ -1,8 +1,12 @@
 {
   "name": "react",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "author": "ryyii",
+  "license": "ISC",
+  "keywords": [],
+  "main": "main.tsx",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

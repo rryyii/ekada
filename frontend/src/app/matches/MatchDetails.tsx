@@ -18,7 +18,7 @@ function MatchDetails() {
     const [teams, setTeams] = useState<any>();
     const [queryKey, setQueryKey] = useState(0);
 
-    const { data } = useQuery({
+    const { data, error } = useQuery({
         queryKey: [`matchData-${selectedMatch?.MatchId}`, selectedMatch?.MatchId, queryKey],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match/${encodeURIComponent(selectedMatch?.MatchId ?? "")}/${queryKey}`)
             .then((res) => res.json()),
@@ -36,6 +36,9 @@ function MatchDetails() {
             setQueryKey(1);
         }
     }, [data])
+
+    if (error) return `Error occured when fetching match details: ${error.message}`;
+
     if (data) {
         return (
             <div className="d-flex flex-column">
@@ -45,7 +48,7 @@ function MatchDetails() {
                             {value.map((item: any, index: number) => (
                                 <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item.title); setQueryKey(index + 1); }}>{index + 1}</button>
                             ))}
-                            <a className="btn btn-light" target="_blank" href={selectedMatch ? selectedMatch.VOD : "Loading"}>
+                            <a className="btn match-btn" target="_blank" href={selectedMatch ? selectedMatch.VOD : "Loading"}>
                                 VOD
                             </a>
                         </div>
@@ -72,11 +75,11 @@ function MatchDetails() {
                             {selectedMatch ? <Objectives selectedMatch={selectedMatch} /> : "Failed to display objectives"}
                         </div>
                         <div className="d-flex p-5 flex-col gap-3 match-container flex-wrap">
-                            {teams ? <MatchTeamTable selectedMatch={selectedMatch}
+                            {teams && selectedMatch ? <MatchTeamTable selectedMatch={selectedMatch}
                                 team={selectedMatch?.Team1}
                                 teams={teams?.get(selectedMatch?.Team1)} /> : ""}
                             <hr></hr>
-                            {teams ? <MatchTeamTable selectedMatch={selectedMatch}
+                            {teams && selectedMatch ? <MatchTeamTable selectedMatch={selectedMatch}
                                 team={selectedMatch?.Team2}
                                 teams={teams?.get(selectedMatch?.Team2)} /> : ""}
                         </div>

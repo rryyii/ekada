@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import Standings from "./LeagueStandingsPage.tsx";
 import MatchCard from "../matches/MatchCard.tsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
     useQuery,
@@ -35,6 +35,7 @@ function Leagues() {
 
     if (data) {
         const [series, future, tName, international] = groupMatchesIntoSeries(data);
+
         return (
             <div className="d-flex flex-column">
                 <div id="leagueBanner" className="team-card shadow">
@@ -42,6 +43,7 @@ function Leagues() {
                         <h1>{leagueName}</h1>
                         <img src={`/assets/${leagueName}.png`} className="league-logo" alt="league-logo"/>
                     </div>
+                    <div className="card-divider"></div>
                     <div>
                         {!international ? [...series.entries()].map(([key, value, idx]) => (
                             <button key={`${idx}-${key}`} onClick={() => {
@@ -72,7 +74,7 @@ function Leagues() {
  * @param tournamentName A string of the current tournament.
  * @category League
  */
-function MatchDayList({ series, tournamentName }: { series: any; tournamentName: string }) {
+function MatchDayList({ series, tournamentName }: { series: Map<String, Array<any>>; tournamentName: string }) {
     return (
         <div className="d-flex flex-column gap-4">
             {[...series.entries()].map(([key, value], index) => (

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
  * A helper function that returns a component with the corresponding champion's image.
  * 
  * @param champions List or String of champion(s) to fetch their corresponding image/icon.
+ * @returns A component with each given champion as their main icon.
  * @category Util
  */
 export function championList(champions: string) {
@@ -21,12 +22,19 @@ export function championList(champions: string) {
     }
 }
 
+/**
+ * Helper function to handle champion name cases to properly fetch from the CDN.
+ * @param championData Array of champion names.
+ * @returns championData but with the proper champion names.
+ * @category Util
+ */
 function handleNameCases(championData : Array<string>) {
         let kaisaIndex = championData.indexOf("Kai'Sa");
         let wuIndex = championData.indexOf("Wukong");
         let renIndex = championData.indexOf("Renata Glasc");
         let belIndex = championData.indexOf("Bel'Veth");
         let choIndex = championData.indexOf("Cho'Gath");
+        let blancIndex = championData.indexOf("LeBlanc");
         if (kaisaIndex != -1) {
             championData[kaisaIndex] = "Kaisa";
         }
@@ -42,6 +50,9 @@ function handleNameCases(championData : Array<string>) {
         if (choIndex != -1) {
             championData[choIndex] = "Chogath";
         }
+        if (blancIndex != -1) {
+            championData[blancIndex] = "Leblanc";
+        }
         return championData;
 }
 
@@ -54,7 +65,7 @@ function handleNameCases(championData : Array<string>) {
  * @category Util
  */
 export function ItemImage({ item, patch }: { item: string, patch: string }) {
-    const { error, data } = useQuery({
+    const { data } = useQuery({
         queryKey: [`leagueData-${item}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/item/${encodeURIComponent(item)}/${encodeURIComponent(patch)}`)
             .then((res) => res.json()),
@@ -69,8 +80,8 @@ export function ItemImage({ item, patch }: { item: string, patch: string }) {
     }
 }
 
- /* A helper function that returns an image component referencing the requested summoner spell.
- *
+/**
+ * A helper function that returns an image component referencing the requested summoner spell.
  * @param item Name of the spell 
  * @returns An image component of the fetched spell
  * @category Util

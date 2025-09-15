@@ -1,3 +1,7 @@
+/**
+ * Returns a component for the main footer of the site.
+ * @category Layout
+ */
 function Footer() {
     return (
         <footer className="main-footer">

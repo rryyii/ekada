@@ -1,6 +1,4 @@
 import { Link } from "react-router";
-import Search from "./SearchFunction.js"
-
 /**
  * Returns a component involving the navigation bar for the entire application.
  * 
@@ -20,24 +18,39 @@ function NavBar() {
                         LCK
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/LPL" className="nav-link">
                         LPL
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/LEC" className="nav-link">
                         LEC
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/LTA North" className="nav-link">
                         LTA N
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/LTA South" className="nav-link">
                         LTA S
+                    </Link>
+                </li>
+                   <li className="nav-item">
+                    <Link to="/leagues/First Stand" className="nav-link">
+                        First Stand
+                    </Link>
+                </li>
+                   <li className="nav-item">
+                    <Link to="/leagues/MSI" className="nav-link">
+                        MSI
+                    </Link>
+                </li>
+                   <li className="nav-item">
+                    <Link to="/leagues/Worlds" className="nav-link">
+                        Worlds
                     </Link>
                 </li>
             </ul>

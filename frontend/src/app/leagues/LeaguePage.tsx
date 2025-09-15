@@ -11,56 +11,55 @@ function MainPage() {
             <div className="row">
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LCK"} >
-                          <h1>LCK</h1>
+                        <img src="/assets/LCK.png" alt="lck logo" className="league-logo"/>
                     </Link>
-              
+                    <h1>LCK</h1>
                 </div>
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LPL"} >
-                        <h1>LPL</h1>
+                        <img src="/assets/LPL.png" alt="lpl logo" className="league-logo"/>
                     </Link>
-                
+                    <h1>LPL</h1>
                 </div>
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LEC"} >
-                      <h1>LEC</h1>
+                        <img src="/assets/LEC.png" alt="lec logo" className="league-logo"/>
                     </Link>
-     
+                    <h1>LEC</h1>
                 </div>
             </div>
             <div className="row">
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LTA North"} >
-                                        <h1>LTA North</h1>
-
+                        <img src="/assets/LTA North.png" alt="lta n logo" className="league-logo"/>
                     </Link>
+                    <h1>LTA North</h1>
                 </div>
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "LTA South"} >
-                        <h1>LTA South</h1>
+                        <img src="/assets/LTA South.png" alt="lta s logo" className="league-logo"/>
                     </Link>
-
+                    <h1>LTA South</h1>
                 </div>
             </div>
             <div className="row">
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "First Stand"} >
-                    <h1>First Stand</h1>
+                        <img src="/assets/First Stand.png" alt="first stand logo" className="league-logo"/>
                     </Link>
-    
+                    <h1>First Stand</h1>
                 </div>
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "MSI"} >
-                                        <h1>MSI</h1>
-
+                        <img src="/assets/MSI.png" alt="msi logo" className="league-logo"/>
                     </Link>
-
+                    <h1>MSI</h1>
                 </div>
                 <div className="col league-div shadow">
                     <Link to={"/leagues/" + "Worlds"} >
-                     <h1>Worlds</h1>
+                        <img src="/assets/Worlds.png" alt="worlds logo" className="league-logo"/>
                     </Link>
-    
+                    <h1>Worlds</h1>
                 </div>
             </div>
         </div>

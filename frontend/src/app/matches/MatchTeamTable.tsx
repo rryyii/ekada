@@ -1,11 +1,18 @@
 import { SummonerImage, ItemImage, championList } from "../util/champion-images";
+import { MatchData } from "../util/match-series";
 
 /**
  * Returns a component including a table for the team's match data.
- * @param param0 
+ * @param selectedMatch Match data for the selected match.
+ * @param team Name of the team.
+ * @param teams Array of the team, its players, and relevant data.
  */
-function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : any, team : any, teams : any}) {
-    console.log(teams);
+function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : MatchData, team : string, teams : Array<any>}) {
+    if (selectedMatch == null || team == null || teams == null) {
+        console.error("Null value was passed to state.")
+        return;
+    }
+
     return (
         <table className="match-table">
             <thead>

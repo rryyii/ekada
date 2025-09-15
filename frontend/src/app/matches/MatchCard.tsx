@@ -7,7 +7,13 @@ import { Link } from "react-router";
  * @param tournamentName A string of the current tournament.
  * @category Match
  */
-function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: string }) {
+function MatchCard({ matches, tournamentName }: { matches: Array<any>; tournamentName: string }) {
+
+    if (matches == null || tournamentName == null) {
+        console.error("No valid values passed to MatchCard");
+        return;
+    }
+
     const series = new Map();
     for (const match of matches) {
         if (series.get(match.title.MatchId)) {
@@ -17,6 +23,9 @@ function MatchCard({ matches, tournamentName }: { matches: any; tournamentName: 
             series.set(match.title.MatchId, [match])
         }
     }
+
+    if (series.size == 0) { return "Empty series found." }
+    
     return (
         <div>
             {[...series.entries()].map(([key, value], index) => (
