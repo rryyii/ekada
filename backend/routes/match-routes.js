@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkCache, builder } from '../app.js';
+import { checkCache, api } from '../app.js';
 const router = express.Router();
 
 /**
@@ -8,14 +8,18 @@ const router = express.Router();
 router.get("/api/match/:match_id/:game_id", async (req, res) => {
     const matchId = req.params.match_id;
     const gameId = req.params.game_id;
-    const apiUrl = await builder.fetchMatchData(matchId, gameId);
-    const clientKey = `game-data-${encodeURIComponent(gameId)}-${encodeURIComponent(matchId)}}`;
-    const data = await checkCache(apiUrl, clientKey);
+    const data = await api.request({
+        action: "cargoquery",
+        format: "json",
+        tables: "ScoreboardPlayers=SP",
+        fields: "SP.DamageToChampions,SP.Side,SP.PlayerWin,SP.MatchId,SP.Team,SP.Name,SP.Role,SP.Items,SP.Trinket,SP.CS,SP.Runes,SP.Kills,SP.Deaths,SP.Assists,SP.Gold,SP.VisionScore,SP.Champion,SP.SummonerSpells",
+        where: `SP.MatchId="${matchId}" AND SP.GameId="${matchId}_${gameId}"`,
+    });
     if (data.error) {
-        res.status(404).json({ error: "Match data not found"});
         return;
     }
     res.json(data);
+
 });
 
 

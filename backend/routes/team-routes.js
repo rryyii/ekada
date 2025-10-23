@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkCache, builder } from '../app.js';
+import { checkCache, api } from '../app.js';
 const router = express.Router();
 
 /**
@@ -8,14 +8,15 @@ const router = express.Router();
 router.get("/api/team_info/:team_name/:tournament_name", async (req, res) => {
     const teamName = req.params.team_name;
     const tournamentName = req.params.tournament_name;
-    const apiUrl = await builder.fetchTeamData(teamName, tournamentName);
-    const clientKey = `team-roster-${encodeURIComponent(teamName)}`;
-    const data = await checkCache(apiUrl, clientKey);
-    if (data.error) {
-        res.status(404).json({ error: "Team information not found"});
-        return;
-    }
-    res.json(data);
+    api.request({
+        action: "cargoquery",
+        format: "json",
+        tables: "TournamentRosters=TR",
+        fields: "TR.Team,TR.RosterLinks,TR.Roles,TR.Region",
+        where: `TR.Tournament="${tournamentName}" AND TR.Team="${teamName}"`,
+    }).then((data) => {
+        res.json(data);
+    })
 });
 
 export default router;

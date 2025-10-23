@@ -6,7 +6,8 @@ import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { RequestBuilder } from './util/RequestBuilder.js';
+import { Mwn } from 'mwn';
+import { sequelize } from './util/database.js';
 import leagueImagesRouter from './routes/images-routes.js';
 import leagueDetailsRouter from './routes/league-routes.js';
 import searchRouter from './routes/search-routes.js';
@@ -21,6 +22,26 @@ const REACT_PORT = process.env.VITE_FRONT_PORT;
 const PORT = process.env.VITE_APP_PORT;
 export const baseUrl = "https://lol.fandom.com/api.php?action=cargoquery&format=json";
 export const latestVersion = "15.15.1";
+
+
+try {
+    await sequelize.authenticate();
+} catch (error) {
+    console.error("Failed to open a connection")
+}
+
+await sequelize.sync({ force: true });
+
+export const api = await Mwn.init({
+    apiUrl: "https://lol.fandom.com/api.php",
+    username: `${process.env.API_USERNAME}`,
+    password: `${process.env.API_PASSWORD}`,
+    defaultParams: {
+        assert: 'user'
+    },
+})
+
+
 
 const client = createClient();
 
@@ -46,7 +67,6 @@ if (!client.isOpen) {
     await client.connect();
 }
 
-export const builder = new RequestBuilder(baseUrl);
 
 export async function checkCache(apiUrl, clientKey) {
     assert(apiUrl != null, "apiUrl is null or empty");
@@ -61,7 +81,7 @@ export async function checkCache(apiUrl, clientKey) {
         method: "GET",
     });
     const data = await response.json();
-    client.set(clientKey, JSON.stringify(data), {expiration: { type: "EX", value: 600}});
+    client.set(clientKey, JSON.stringify(data), { expiration: { type: "EX", value: 600 } });
     return data;
 }
 
