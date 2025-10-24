@@ -4,6 +4,7 @@ import MatchCard from "../matches/MatchCard.tsx";
 import { useState } from "react";
 import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
+    useMutation,
     useQuery,
 } from '@tanstack/react-query'
 
@@ -20,6 +21,7 @@ function Leagues() {
     const [selectedTournament, setSelectedTournament] = useState<any>();
     const [tournamentString, setTournamentString] = useState<string>();
     const path = `${leagueName} ${currentYear}`;
+    const [test, setTest] = useState<any>();
 
     const { isPending, error, data } = useQuery({
         queryKey: [`leagueData-${leagueName}`],
@@ -28,6 +30,29 @@ function Leagues() {
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
+
+    const mutation = useMutation({
+        mutationFn: async () => {
+            const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/data/${encodeURIComponent(tournamentString || "")}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            return await request.json();
+        },
+        onSuccess: (data) => {
+            setTest(data);
+        },
+        onError: (error) => {
+            console.error(error.message);
+        }
+    })
+
+    console.log(tournamentString);
+
+    const handler = (e: any) => {
+        e.preventDefault();
+        mutation.mutate();
+    }
 
     if (isPending) return 'Loading...';
 
@@ -41,7 +66,7 @@ function Leagues() {
                 <div id="leagueBanner" className="team-card shadow">
                     <div className="d-flex align-items-center gap-3">
                         <h1>{leagueName}</h1>
-                        <img src={`/assets/${leagueName}.png`} className="league-logo" alt="league-logo"/>
+                        <img src={`/assets/${leagueName}.png`} className="league-logo" alt="league-logo" />
                     </div>
                     <div className="card-divider"></div>
                     <div>

@@ -24,7 +24,7 @@ function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : MatchDat
                             : <h1 className="loser-team">Lost</h1>
                         }
                         <div>
-                            {teams[0].title.Side == "1" ? "Blue" : "Red"}
+                            {teams[0].Side == "1" ? "Blue" : "Red"}
                         </div>
                     </th>
                 </tr>
@@ -40,37 +40,37 @@ function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : MatchDat
             </thead>
             <tbody>
                 {teams ? teams.map((item: any) => (
-                    <tr key={`team-details-${item.title.Name}`}>
+                    <tr key={`team-details-${item.Name}`}>
                         <td>
-                            <ItemImage item={item.title.Trinket} patch={selectedMatch?.Patch ?? ""} />
-                            {item.title.SummonerSpells.split(",").map((val: string, idx: number) => (
+                            <ItemImage item={item.Trinket} patch={selectedMatch?.Patch ?? ""} />
+                            {item.SummonerSpells.split(",").map((val: string, idx: number) => (
                                 <SummonerImage key={idx} spell={val} />
                             ))}
                         </td>
                         <td className="d-flex">
-                            {item.title.Items.split(";").map((val: string, idx: number) => (
+                            {item.Items.split(";").map((val: string, idx: number) => (
                                 <ItemImage key={idx} item={val} patch={selectedMatch?.Patch ?? ""} />
                             ))}
                         </td>
                         <td>
-                            <span>{item.title.Kills}</span>
+                            <span>{item.Kills}</span>
                             <span> / </span>
-                            <span>{item.title.Deaths}</span>
+                            <span>{item.Deaths}</span>
                             <span> / </span>
-                            <span>{item.title.Assists}</span>
+                            <span>{item.Assists}</span>
                         </td>
                         <td>
-                            <span>{item.title.CS}</span>
+                            <span>{item.CS}</span>
                         </td>
                         <td>
-                            <span>{parseInt(item.title.Gold).toLocaleString("en-US")} </span>
+                            <span>{parseInt(item.Gold).toLocaleString("en-US")} </span>
                         </td>
                         <td>
-                            <span>{parseInt(item.title.DamageToChampions).toLocaleString("en-US")} </span>
+                            <span>{parseInt(item.DamageToChampions).toLocaleString("en-US")} </span>
                         </td>
                         <td className="d-flex flex-row align-items-start">
-                            <span>{championList(item.title.Champion)}</span>
-                            <span> {item.title.Name}</span>
+                            <span>{championList(item.Champion)}</span>
+                            <span> {item.Name}</span>
                         </td>
                     </tr>
                 ))

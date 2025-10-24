@@ -28,13 +28,13 @@ function Team() {
     if (error) return 'An error has occurred: ' + error.message
 
     if (data) {
-        const [players, coaches]: Array<Map<Array<string>, Array<string>>> = parsePlayersIntoRoles(data.cargoquery[0].title.RosterLinks, data.cargoquery[0].title.Roles);
+        const [players, coaches]: Array<Map<Array<string>, Array<string>>> = parsePlayersIntoRoles(data[0].RosterLinks, data[0].Roles);
         return (
             <div className="d-flex flex-column align-items-center shadow">
                 <div className="d-flex flex-row gap-3 team-card">
                     <h1>{teamName}</h1>
                     <img className="team-logo" src={`/assets/teams/${teamName}.png`} loading="lazy" alt={`${teamName} Logo`}/>
-                    <p>{data.cargoquery[0].title.Region}</p>
+                    <p>{data.Region}</p>
                 </div>
                 <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
                     {Array.from(players).map(([key, value], idx) =>

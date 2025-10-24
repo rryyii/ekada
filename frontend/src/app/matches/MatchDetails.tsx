@@ -14,7 +14,7 @@ import MatchTeamTable from "./MatchTeamTable";
 function MatchDetails() {
     const location = useLocation();
     const { value, tournamentName } = location.state;
-    const [selectedMatch, setSelectedMatch] = useState<MatchData>();
+    const [selectedMatch, setSelectedMatch] = useState<any>();
     const [teams, setTeams] = useState<any>();
     const [queryKey, setQueryKey] = useState(0);
 
@@ -37,6 +37,7 @@ function MatchDetails() {
         }
     }, [data])
 
+    console.log(selectedMatch);
     if (error) return `Error occured when fetching match details: ${error.message}`;
 
     if (data) {
@@ -54,7 +55,7 @@ function MatchDetails() {
                         </div>
                         <div className="d-flex flex-col justify-content-around">
                             <div className="match-team1 d-flex align-items-center gap-2">
-                                <Link to={`/team/${selectedMatch?.Team1}/${tournamentName}`}>
+                                <Link to={`/team/${selectedMatch?.Team1}/${selectedMatch?.Name}`}>
                                     <img src={`/assets/teams/${value[0].title.Team1}.png`} loading="lazy" className="team-logo" />
                                 </Link>
                                 <h4>{value[0].title.Team1}</h4>

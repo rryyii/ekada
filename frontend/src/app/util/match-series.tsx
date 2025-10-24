@@ -62,11 +62,11 @@ export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
  * @returns A map including the players categorized into their teams.
  * @category Util
  */
-export function groupPlayersIntoTeams(rawPlayers: { cargoquery: any }) {
-    const cargo = rawPlayers.cargoquery;
+export function groupPlayersIntoTeams(rawPlayers: any) {
+    const cargo = rawPlayers;
     const map = new Map();
     for (const player of cargo) {
-        const team = player.title.Team;
+        const team = player.Team;
         if (map.has(team)) {
             const current = map.get(team);
             current.push(player);

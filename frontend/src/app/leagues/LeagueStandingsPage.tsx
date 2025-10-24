@@ -19,12 +19,11 @@ function Standings({ leagueName }: { leagueName: string }) {
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
-
     if (isPending) return 'Loading...';
 
     if (error) return 'An error has occurred: ' + error.message;
 
-    if (data && data.cargoquery.length > 0) {
+    if (data) {
         return (
                 <table className="standings-table">
                     <thead>
@@ -36,12 +35,12 @@ function Standings({ leagueName }: { leagueName: string }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.cargoquery.map((item: { title: StandingsData}) => (
-                            <tr key={`${item.title.Place} - ${item.title.Team}`}>
-                                <td>{item.title.Place}</td>
-                                <td>{item.title.Team}</td>
-                                <td>{item.title.WinSeries} - {item.title.LossSeries}</td>
-                                <td>{item.title.Streak} {item.title.StreakDirection}</td>
+                        {data.map((item: StandingsData) => (
+                            <tr key={`${item.Place} - ${item.Team}`}>
+                                <td>{item.Place}</td>
+                                <td>{item.Team}</td>
+                                <td>{item.WinSeries} - {item.LossSeries}</td>
+                                <td>{item.Streak} {item.StreakDirection}</td>
                             </tr>
                         ))}
                     </tbody>
