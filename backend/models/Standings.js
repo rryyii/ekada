@@ -1,10 +1,13 @@
-import { sequelize } from "../db.js";
+import { sequelize } from "../util/database.js";
 import { DataTypes, DATE } from "sequelize";
 
 
 const Standings = sequelize.define(
     "Standings",
     {
+        LeagueName: {
+            type: DataTypes.STRING,
+        },
         Team: {
             type: DataTypes.STRING,
         },
@@ -21,7 +24,7 @@ const Standings = sequelize.define(
             type: DataTypes.INTEGER,
         },
         StreakDirection: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
         },
         Points: {
             type: DataTypes.INTEGER,

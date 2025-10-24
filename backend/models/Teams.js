@@ -7,10 +7,16 @@ const Teams = sequelize.define(
         Team: {
             type: DataTypes.STRING,
         },
+        Roles: {
+            type: DataTypes.STRING,
+        },
         RosterLinks: {
             type: DataTypes.STRING,
         },
         Region: {
+            type: DataTypes.STRING,
+        },
+        Tournament: {
             type: DataTypes.STRING,
         }
     }

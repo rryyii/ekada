@@ -1,13 +1,15 @@
-import { sequelize } from "../db.js";
+import { sequelize } from "../util/database.js";
 import { DataTypes } from "sequelize";
 
 const MatchData = sequelize.define(
     'MatchData',
     {
         MatchId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+        },
+        GameId: {
+            type: DataTypes.STRING,
         },
         Team: {
             type: DataTypes.STRING,
@@ -46,23 +48,23 @@ const MatchData = sequelize.define(
             allowNull: false,
         },
         Kills: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         Deaths: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         Assists: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         Gold: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         VisionScore: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         SummonerSpells: {
@@ -73,6 +75,10 @@ const MatchData = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        DamageToChampions: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     }
 )
 

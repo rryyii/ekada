@@ -1,4 +1,4 @@
-import { sequelize } from "../db.js";
+import { sequelize } from "../util/database.js"
 import { DataTypes } from "sequelize";
 
 const MatchSchedule = sequelize.define(
@@ -99,8 +99,6 @@ const MatchSchedule = sequelize.define(
     },
     MatchId: {
       type: DataTypes.STRING,
-      primaryKey: true,
-      unique: true,
     },
   },
 );

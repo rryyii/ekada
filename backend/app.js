@@ -20,28 +20,32 @@ const __dirname = dirname(__filename);
 const app = express();
 const REACT_PORT = process.env.VITE_FRONT_PORT;
 const PORT = process.env.VITE_APP_PORT;
+const API_USERNAME = process.env.API_USERNAME;
+const API_PASSWORD = process.env.API_PASSWORD;
 export const baseUrl = "https://lol.fandom.com/api.php?action=cargoquery&format=json";
 export const latestVersion = "15.15.1";
 
 
 try {
     await sequelize.authenticate();
+    console.info("Authenticated sequelize connection");
 } catch (error) {
-    console.error("Failed to open a connection")
+    console.error("Failed to open a connection");
 }
 
 await sequelize.sync({ force: true });
 
+assert(API_USERNAME != null, "Failed to get username");
+assert(API_PASSWORD != null, "Failed to get password");
+
 export const api = await Mwn.init({
     apiUrl: "https://lol.fandom.com/api.php",
-    username: `${process.env.API_USERNAME}`,
-    password: `${process.env.API_PASSWORD}`,
+    username: `${API_USERNAME}`,
+    password: `${API_PASSWORD}`,
     defaultParams: {
         assert: 'user'
     },
 })
-
-
 
 const client = createClient();
 
