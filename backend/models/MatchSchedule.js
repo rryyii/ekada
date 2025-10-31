@@ -100,6 +100,9 @@ const MatchSchedule = sequelize.define(
     MatchId: {
       type: DataTypes.STRING,
     },
+    isInternational: {
+      type: DataTypes.BOOLEAN,
+    }
   },
 );
 

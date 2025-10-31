@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import MatchData from "../models/MatchData.js";
 import MatchSchedule from "../models/MatchSchedule.js";
 import Standings from "../models/Standings.js";
@@ -17,7 +18,20 @@ export async function getEntries(type, where, test) {
         case "regular-schedule":
             result = await MatchSchedule.findAll({
                 where: {
-                    MatchId: where,
+                    MatchId: {
+                        [Op.like]: `${where}%`
+                    },
+                    isInternational: false,
+                }
+            })
+            return result;
+        case "international-schedule":
+            result = await MatchSchedule.findAll({
+                where: {
+                    MatchId: {
+                        [Op.like]: `${where}%`
+                    },
+                    isInternational: true,
                 }
             })
             return result;

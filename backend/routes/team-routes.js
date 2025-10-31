@@ -16,28 +16,26 @@ router.get("/api/team_info/:team_name/:tournament_name", async (req, res) => {
             Tournament: tournamentName,
         }
     })
-    if (current.length == 0) {
-        const data = await api.request({
-            action: "cargoquery",
-            format: "json",
-            tables: "TournamentRosters=TR",
-            fields: "TR.Team,TR.RosterLinks,TR.Roles,TR.Region",
-            where: `TR.Tournament="${tournamentName}" AND TR.Team="${teamName}"`,
-        });
-        if (data.error) {
-            res.status(404).json({ error: "Team info not found" })
-            return;
-        }
-        for (const item of data.cargoquery) {
-            const t = item.title ?? {};
-            await Teams.create({
-                Team: t.Team, RosterLinks: t.RosterLinks, Region: t.Region, Tournament: tournamentName, Roles: t.Roles,
-            });
-        }
-        res.json(await getEntries("team", teamName, tournamentName));
-    } else {
-        res.json(await getEntries("team", teamName, tournamentName));
+    if (current.length != 0) {
+        return res.json(await getEntries("team", teamName, tournamentName));
     }
+    const data = await api.request({
+        action: "cargoquery",
+        format: "json",
+        tables: "TournamentRosters=TR",
+        fields: "TR.Team,TR.RosterLinks,TR.Roles,TR.Region",
+        where: `TR.Tournament="${tournamentName}" AND TR.Team="${teamName}"`,
+    });
+    if (data.error) {
+        return res.status(404).json({ error: "Team info not found" })
+    }
+    for (const item of data.cargoquery) {
+        const t = item.title ?? {};
+        await Teams.create({
+            Team: t.Team, RosterLinks: t.RosterLinks, Region: t.Region, Tournament: tournamentName, Roles: t.Roles,
+        });
+    }
+    return res.json(await getEntries("team", teamName, tournamentName));
 });
 
 export default router;

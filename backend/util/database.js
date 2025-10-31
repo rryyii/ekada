@@ -9,5 +9,6 @@ export const sequelize = new Sequelize(
         password: "",
         host: "localhost",
         port: 3306,
+        logging: false,
     }
 )
