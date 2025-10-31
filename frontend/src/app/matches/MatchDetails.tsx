@@ -32,7 +32,7 @@ function MatchDetails() {
             setTeams(groupPlayersIntoTeams(data));
         }
         if (value && queryKey == 0) {
-            setSelectedMatch(value[0].title);
+            setSelectedMatch(value[0]);
             setQueryKey(1);
         }
     }, [data])
@@ -47,7 +47,7 @@ function MatchDetails() {
                     <div id="match-content">
                         <div className="match-btns">
                             {value.map((item: any, index: number) => (
-                                <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item.title); setQueryKey(index + 1); }}>{index + 1}</button>
+                                <button key={index} className="btn btn-light match-btn" onClick={() => { setSelectedMatch(item); setQueryKey(index + 1); }}>{index + 1}</button>
                             ))}
                             <a className="btn match-btn" target="_blank" href={selectedMatch ? selectedMatch.VOD : "Loading"}>
                                 VOD
@@ -56,14 +56,14 @@ function MatchDetails() {
                         <div className="d-flex flex-col justify-content-around">
                             <div className="match-team1 d-flex align-items-center gap-2">
                                 <Link to={`/team/${selectedMatch?.Team1}/${selectedMatch?.Name}`}>
-                                    <img src={`/assets/teams/${value[0].title.Team1}.png`} loading="lazy" className="team-logo" />
+                                    <img src={`/assets/teams/${value[0].Team1}.png`} loading="lazy" className="team-logo" />
                                 </Link>
-                                <h4>{value[0].title.Team1}</h4>
+                                <h4>{value[0].Team1}</h4>
                             </div>
                             <div className="match-team2 d-flex align-items-center gap-2">
-                                 <h4>{value[0].title.Team2}</h4>
+                                 <h4>{value[0].Team2}</h4>
                                 <Link to={`/team/${selectedMatch?.Team2}/${tournamentName}`}>
-                                    <img src={`/assets/teams/${value[0].title.Team2}.png`} loading="lazy" className="team-logo" />
+                                    <img src={`/assets/teams/${value[0].Team2}.png`} loading="lazy" className="team-logo" />
                                 </Link>
                             </div>
                         </div>

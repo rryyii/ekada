@@ -24,6 +24,11 @@ function NavBar() {
                     </Link>
                 </li>
                 <li className="nav-item">
+                    <Link to="/leagues/LCP" className="nav-link">
+                        LCP
+                    </Link>
+                </li>
+                <li className="nav-item">
                     <Link to="/leagues/LEC" className="nav-link">
                         LEC
                     </Link>
@@ -38,17 +43,17 @@ function NavBar() {
                         LTA S
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/First Stand" className="nav-link">
                         First Stand
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/MSI" className="nav-link">
                         MSI
                     </Link>
                 </li>
-                   <li className="nav-item">
+                <li className="nav-item">
                     <Link to="/leagues/Worlds" className="nav-link">
                         Worlds
                     </Link>

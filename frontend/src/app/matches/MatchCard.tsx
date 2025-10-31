@@ -16,11 +16,11 @@ function MatchCard({ matches, tournamentName }: { matches: Array<any>; tournamen
 
     const series = new Map();
     for (const match of matches) {
-        if (series.get(match.title.MatchId)) {
-            const current = series.get(match.title.MatchId)
+        if (series.get(match.MatchId)) {
+            const current = series.get(match.MatchId)
             current.push(match)
         } else {
-            series.set(match.title.MatchId, [match])
+            series.set(match.MatchId, [match])
         }
     }
 
@@ -32,15 +32,15 @@ function MatchCard({ matches, tournamentName }: { matches: Array<any>; tournamen
                 <div key={`${index} - ${key}`} className="card-container">
                     <Link id="matchCard" className="row justify-content-center align-items-center" to={"/match_details"} state={{ value, tournamentName }}>
                         <div className="col">
-                            <img src={`/assets/teams/${value[0].title.Team1}.png`} loading="lazy" className="team-logo"/>
+                            <img src={`/assets/teams/${value[0].Team1}.png`} loading="lazy" className="team-logo"/>
                         </div>
                         <div className="col d-flex gap-3">
-                            <p>{value[0].title.Team1Score}</p>
+                            <p>{value[0].Team1Score}</p>
                             <p>-</p>
-                            <p>{value[0].title.Team2Score}</p>
+                            <p>{value[0].Team2Score}</p>
                         </div>
                         <div className="col">
-                            <img src={`/assets/teams/${value[0].title.Team2}.png`} loading="lazy" className="team-logo"/>
+                            <img src={`/assets/teams/${value[0].Team2}.png`} loading="lazy" className="team-logo"/>
                         </div>
                     </Link>
                 </div>

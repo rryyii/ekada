@@ -5,19 +5,27 @@
  * @returns An array of past series, future series, tournament name, and international series.
  * @category Util
  */
-export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
+export function groupMatchesIntoSeries(rawMatches: any) {
     const currentMap = new Map();
     const futureMap = new Map();
     const today = new Date();
+    const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     let international = false;
-    let cargo = rawMatches.cargoquery;
-    for (const match of cargo) {
-        const date = new Date(match.title["DateTime UTC"]);
+    for (const match of rawMatches) {
+        const raw = match.DateTime_UTC ?? match["DateTime UTC"] ?? match["DateTime-UTC"] ?? match["DateTime UTC"];
+        if (!raw) continue;
+        const date = new Date(raw);
+        if (isNaN(date.getTime())) continue;
+        const dateLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
         const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
         const formattedDate = date.toLocaleDateString('en-US', options);
-        const tournamentName = match.title.Name;
-        if (match.title.Split != null) {
-            const targetMap = date >= today ? futureMap : currentMap;
+        const tournamentName = match.Name;
+
+        const isFuture = dateLocal >= todayLocal;
+
+        if (match.Split != null) {
+            const targetMap = isFuture ? futureMap : currentMap;
 
             if (!targetMap.has(tournamentName)) {
                 targetMap.set(tournamentName, new Map());
@@ -31,26 +39,17 @@ export function groupMatchesIntoSeries(rawMatches: { cargoquery: any }) {
 
             dateMap.get(formattedDate).push(match);
             international = false;
-        } else if (match.title.Name.includes("First Stand") || match.title.Name.includes("MSI")|| match.title.Name.includes("Worlds") ) {
-            if (date >= today) {
-                if (futureMap.has(formattedDate)) {
-                    const current = futureMap.get(formattedDate);
-                    current.push(match);
-                } else {
-                    futureMap.set(formattedDate, [match]);
-                }
+        } else if (match.Name && (match.Name.includes("First Stand") || match.Name.includes("MSI") || match.Name.includes("Worlds"))) {
+            const target = isFuture ? futureMap : currentMap;
+            if (target.has(formattedDate)) {
+                target.get(formattedDate).push(match);
             } else {
-                if (currentMap.has(formattedDate)) {
-                    const current = currentMap.get(formattedDate);
-                    current.push(match)
-                } else {
-                    currentMap.set(formattedDate, [match]);
-                }
+                target.set(formattedDate, [match]);
             }
             international = true;
         }
     }
-    const tName = cargo[0]?.title.Name;
+    const tName = rawMatches[0]?.Name;
     return [currentMap, futureMap, tName, international];
 }
 

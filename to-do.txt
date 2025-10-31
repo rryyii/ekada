@@ -1,0 +1,5 @@
+# stats features #
+most picked champions and their win-rate
+most banned champions
+red and blue win percentages
+

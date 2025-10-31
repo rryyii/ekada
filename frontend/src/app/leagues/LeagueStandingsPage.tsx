@@ -12,18 +12,17 @@ import { StandingsData } from '../util/match-series';
  * @category League
  */
 function Standings({ leagueName }: { leagueName: string }) {
-    const { isPending, error, data } = useQuery({
+    const { error, data } = useQuery({
         queryKey: [`standingData-${leagueName}`],
         queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
     });
-    if (isPending) return 'Loading...';
 
     if (error) return 'An error has occurred: ' + error.message;
 
-    if (data) {
+    if (data && data.length > 0) {
         return (
                 <table className="standings-table">
                     <thead>

@@ -7,6 +7,7 @@ import {
     useMutation,
     useQuery,
 } from '@tanstack/react-query'
+import LeagueStatsPage from "./LeagueStatsPage.tsx";
 
 /**
  * Returns a component that lists both the current and future match schedule for the current league. 
@@ -21,7 +22,6 @@ function Leagues() {
     const [selectedTournament, setSelectedTournament] = useState<any>();
     const [tournamentString, setTournamentString] = useState<string>();
     const path = `${leagueName} ${currentYear}`;
-    const [test, setTest] = useState<any>();
 
     const { isPending, error, data } = useQuery({
         queryKey: [`leagueData-${leagueName}`],
@@ -31,28 +31,6 @@ function Leagues() {
         staleTime: 0,
     });
 
-    const mutation = useMutation({
-        mutationFn: async () => {
-            const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/data/${encodeURIComponent(tournamentString || "")}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            return await request.json();
-        },
-        onSuccess: (data) => {
-            setTest(data);
-        },
-        onError: (error) => {
-            console.error(error.message);
-        }
-    })
-
-    console.log(tournamentString);
-
-    const handler = (e: any) => {
-        e.preventDefault();
-        mutation.mutate();
-    }
 
     if (isPending) return 'Loading...';
 
@@ -63,7 +41,7 @@ function Leagues() {
 
         return (
             <div className="d-flex flex-column">
-                <div id="leagueBanner" className="team-card shadow">
+                <div className="leagueBanner team-card shadow">
                     <div className="d-flex align-items-center gap-3">
                         <h1>{leagueName}</h1>
                         <img src={`/assets/${leagueName}.png`} className="league-logo" alt="league-logo" />
@@ -72,7 +50,7 @@ function Leagues() {
                     <div>
                         {!international ? [...series.entries()].map(([key, value, idx]) => (
                             <button key={`${idx}-${key}`} onClick={() => {
-                                setSelectedTournament(value); setTournamentString(value.values().next().value[0].title.OverviewPage)
+                                setSelectedTournament(value); setTournamentString(value.values().next().value[0].OverviewPage)
                             }} className="btn btn-text">{key}
                             </button>
                         )) : ""}
@@ -86,6 +64,9 @@ function Leagues() {
                     <div>
                         {selectedTournament ? <Standings leagueName={tournamentString ?? ""} /> : ""}
                     </div>
+                </div>
+                <div>
+                    {selectedTournament ? <LeagueStatsPage tournamentString={tournamentString ?? ""} /> : ""}
                 </div>
             </div>);
 
