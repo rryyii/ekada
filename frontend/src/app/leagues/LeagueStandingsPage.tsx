@@ -14,7 +14,7 @@ import { StandingsData } from '../util/match-series';
 function Standings({ leagueName }: { leagueName: string }) {
     const { error, data } = useQuery({
         queryKey: [`standingData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/leagues/standings/${encodeURIComponent(leagueName)}`)
+        queryFn: () => fetch(`http://localhost:8000/leagues/standings/${encodeURIComponent(leagueName)}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,

@@ -20,7 +20,7 @@ function MatchDetails() {
 
     const { data, error } = useQuery({
         queryKey: [`matchData-${selectedMatch?.MatchId}`, selectedMatch?.MatchId, queryKey],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match/${encodeURIComponent(selectedMatch?.MatchId ?? "")}/${queryKey}`)
+        queryFn: () => fetch(`http://localhost:8000/leagues/match_data/${encodeURIComponent(selectedMatch?.MatchId ?? "")}/${queryKey}`)
             .then((res) => res.json()),
         enabled: !!selectedMatch && !!queryKey,
         refetchOnWindowFocus: true,

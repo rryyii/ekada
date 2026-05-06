@@ -21,11 +21,11 @@ function Leagues() {
     const currentYear = new Date().getFullYear();
     const [selectedTournament, setSelectedTournament] = useState<any>();
     const [tournamentString, setTournamentString] = useState<string>();
-    const path = `${leagueName} ${currentYear}`;
+    const path = `${leagueName}`;
 
     const { isPending, error, data } = useQuery({
         queryKey: [`leagueData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/match_schedule/${path}`)
+        queryFn: () => fetch(`http://localhost:8000/leagues/match_schedule/${path}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
@@ -38,7 +38,7 @@ function Leagues() {
 
     if (data) {
         const [series, future, tName, international] = groupMatchesIntoSeries(data);
-
+        
         return (
             <div className="d-flex flex-column">
                 <div className="leagueBanner team-card shadow">

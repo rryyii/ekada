@@ -64,10 +64,10 @@ function handleNameCases(championData : Array<string>) {
  * @returns An image component of the fetched item
  * @category Util
  */
-export function ItemImage({ item, patch }: { item: string, patch: string }) {
+export function ItemImage({ item }: { item: string, patch: string }) {
     const { data } = useQuery({
         queryKey: [`leagueData-${item}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/item/${encodeURIComponent(item)}/${encodeURIComponent(patch)}`)
+        queryFn: () => fetch(`http://localhost:8000/images/item/${encodeURIComponent(item)} `)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
@@ -89,7 +89,7 @@ export function ItemImage({ item, patch }: { item: string, patch: string }) {
 export function SummonerImage({ spell }: { spell: string }) {
     const { data } = useQuery({
         queryKey: [`leagueData-${spell}`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/summoner_spell/${encodeURIComponent(spell)}`).then((res) => res.json()),
+        queryFn: () => fetch(`http://localhost:8000/images/summoner_spell/${encodeURIComponent(spell)}`).then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
     });

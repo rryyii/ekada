@@ -18,7 +18,7 @@ function Team() {
     const { isPending, error, data } = useQuery({
         queryKey: [`teamData-${teamName ?? ""}-${leagueName ?? ""}`],
         queryFn: () => fetch(
-            `http://localhost:${import.meta.env.VITE_APP_PORT}/api/team_info/${encodeURIComponent(teamName as string)}/${encodeURIComponent(leagueName as string)}`
+            `http://localhost:${import.meta.env.VITE_APP_PORT}/teams/${encodeURIComponent(teamName as string)}/${encodeURIComponent(leagueName as string)}`
         ).then((res) => res.json()),
         enabled,
     });
