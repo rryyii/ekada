@@ -64,7 +64,7 @@ function handleNameCases(championData : Array<string>) {
  * @returns An image component of the fetched item
  * @category Util
  */
-export function ItemImage({ item }: { item: string, patch: string }) {
+export function ItemImage({ item }: { item: string }) {
     const { data } = useQuery({
         queryKey: [`leagueData-${item}`],
         queryFn: () => fetch(`http://localhost:8000/images/item/${encodeURIComponent(item)} `)

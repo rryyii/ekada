@@ -5,53 +5,18 @@
  * @returns An array of past series, future series, tournament name, and international series.
  * @category Util
  */
-export function groupMatchesIntoSeries(rawMatches: any) {
-    const currentMap = new Map();
-    const futureMap = new Map();
-    const today = new Date();
-    const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    let international = false;
-    for (const match of rawMatches) {
-        const raw = match.DateTime_UTC ?? match["DateTime UTC"] ?? match["DateTime-UTC"] ?? match["DateTime UTC"];
-        if (!raw) continue;
-        const date = new Date(raw);
-        if (isNaN(date.getTime())) continue;
-        const dateLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-        const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
-        const formattedDate = date.toLocaleDateString('en-US', options);
-        const tournamentName = match.Name;
-
-        const isFuture = dateLocal > todayLocal;
-
-        if (match.Split != null) {
-            const targetMap = isFuture ? futureMap : currentMap;
-
-            if (!targetMap.has(tournamentName)) {
-                targetMap.set(tournamentName, new Map());
-            }
-
-            const dateMap = targetMap.get(tournamentName);
-
-            if (!dateMap.has(formattedDate)) {
-                dateMap.set(formattedDate, []);
-            }
-
-            dateMap.get(formattedDate).push(match);
-            international = false;  
-        } else if (match.Name && (match.Name.includes("First Stand") || match.Name.includes("MSI") || match.Name.includes("Worlds"))) {
-            const target = isFuture ? futureMap : currentMap;
-            if (target.has(formattedDate)) {
-                target.get(formattedDate).push(match);
-            } else {
-                target.set(formattedDate, [match]);
-            }
-            international = true;
+export function groupMatches(matches: any) {
+    const map = new Map();
+    for (const game of matches) {
+        const gameId = game.GameId;
+        if (map.has(gameId)) {
+            const current = map.get(gameId);
+            current.push(game);
+        } else {
+            map.set(gameId, [game])
         }
     }
-    const tName = rawMatches[0]?.Name;
-    console.log(currentMap)
-    return [currentMap, futureMap, tName, international];
+    return map;
 }
 
 
@@ -67,11 +32,17 @@ export function groupPlayersIntoTeams(rawPlayers: any) {
     const map = new Map();
     for (const player of cargo) {
         const team = player.Team;
-        if (map.has(team)) {
-            const current = map.get(team);
-            current.push(player);
+        const gameId = player.GameId;
+
+        if (!map.has(team)) {
+            map.set(team, new Map());
+        }
+        const teamMap = map.get(team)!;
+
+        if (teamMap.has(gameId)) {
+            teamMap.get(gameId)!.push(player);
         } else {
-            map.set(team, [player]);
+            teamMap.set(gameId, [player]);
         }
     }
     return map;
@@ -100,7 +71,7 @@ export function parsePlayersIntoRoles(players: string, roles: string) {
     return [playerMap, coachMap];
 }
 
-export function parseChampionBans(bans : string) {
+export function parseChampionBans(bans: string) {
     console.log(bans);
     const map = new Map();
     const banList = bans.split(",");
@@ -143,7 +114,7 @@ export type StandingsData = {
     Place: string,
     Team: string,
     WinSeries: string,
-    LossSeries: string, 
+    LossSeries: string,
     Points: number,
     Streak: number,
     StreakDirection: string,

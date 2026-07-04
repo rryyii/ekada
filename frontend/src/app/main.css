@@ -56,7 +56,7 @@ body {
     background-color: var(--bg-secondary);
     border-radius: .5rem;
     margin: 1rem;
-    width: 10vw;
+    padding: .5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

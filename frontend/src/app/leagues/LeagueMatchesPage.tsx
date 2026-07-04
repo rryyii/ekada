@@ -1,13 +1,10 @@
 import { useParams } from "react-router";
 import Standings from "./LeagueStandingsPage.tsx";
-import MatchCard from "../matches/MatchCard.tsx";
+import MatchDayList from "../matches/MatchDayList.tsx"
 import { useState } from "react";
-import { groupMatchesIntoSeries } from "../util/match-series.tsx";
 import {
-    useMutation,
     useQuery,
 } from '@tanstack/react-query'
-import LeagueStatsPage from "./LeagueStatsPage.tsx";
 
 /**
  * Returns a component that lists both the current and future match schedule for the current league. 
@@ -18,14 +15,13 @@ import LeagueStatsPage from "./LeagueStatsPage.tsx";
 function Leagues() {
     const params = useParams();
     const leagueName: string | undefined = params.leagueName;
-    const currentYear = new Date().getFullYear();
-    const [selectedTournament, setSelectedTournament] = useState<any>();
-    const [tournamentString, setTournamentString] = useState<string>();
+    const [selectedSplit, setSelectedSplit] = useState<any>();
+    const [selectedName, setSelectedName] = useState<string>("");
     const path = `${leagueName}`;
 
     const { isPending, error, data } = useQuery({
         queryKey: [`leagueData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:8000/leagues/match_schedule/${path}`)
+        queryFn: () => fetch(`http://localhost:8000/leagues/split/${path}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
@@ -37,10 +33,9 @@ function Leagues() {
     if (error) return 'An error has occurred: ' + error.message;
 
     if (data) {
-        const [series, future, tName, international] = groupMatchesIntoSeries(data);
-        
+
         return (
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column gap-5">
                 <div className="leagueBanner team-card shadow">
                     <div className="d-flex align-items-center gap-3">
                         <h1>{leagueName}</h1>
@@ -48,49 +43,30 @@ function Leagues() {
                     </div>
                     <div className="card-divider"></div>
                     <div>
-                        {!international ? [...series.entries()].map(([key, value, idx]) => (
+                        {[...data.entries()].map(([key, value, idx]) => (
                             <button key={`${idx}-${key}`} onClick={() => {
-                                setSelectedTournament(value); setTournamentString(value.values().next().value[0].OverviewPage)
-                            }} className="btn btn-text">{key}
+                                setSelectedName(value.Name);
+                                setSelectedSplit(value)
+                            }} className="btn btn-text">{value.Name}
                             </button>
-                        )) : ""}
+                        ))}
                     </div>
                 </div>
                 <div className="d-flex p-2 justify-content-around">
                     <div>
-                        {selectedTournament ? <MatchDayList series={selectedTournament} tournamentName={tName} /> : ""}
-                        {international ? <MatchDayList series={series} tournamentName={tName} /> : ""}
+                        {selectedName ? <MatchDayList split={selectedName ?? ""} /> : ""}
                     </div>
                     <div>
-                        {selectedTournament ? <Standings leagueName={tournamentString ?? ""} /> : ""}
+                        {selectedSplit ? <Standings leagueName={selectedSplit.OverviewPage ?? ""} /> : ""}
                     </div>
                 </div>
                 <div>
-                    {selectedTournament ? <LeagueStatsPage tournamentString={tournamentString ?? ""} /> : ""}
+                    {/* {selectedTournament ? <LeagueStatsPage tournamentString={tournamentString ?? ""} /> : ""} */}
                 </div>
             </div>);
 
     }
 }
 
-/**
- * Returns a component that displays the past and current series of the current league.
- *
- * @param series Data including the current leagues' series.
- * @param tournamentName A string of the current tournament.
- * @category League
- */
-function MatchDayList({ series, tournamentName }: { series: Map<String, Array<any>>; tournamentName: string }) {
-    return (
-        <div className="d-flex flex-column gap-4">
-            {[...series.entries()].map(([key, value], index) => (
-                <div key={`${index} - ${key}`} className="container d-flex flex-column gap-1">
-                    <h2>{key}</h2>
-                    <MatchCard matches={value} tournamentName={tournamentName} />
-                </div>
-            ))}
-        </div>
-    );
-}
 
 export default Leagues;

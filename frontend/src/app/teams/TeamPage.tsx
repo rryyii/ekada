@@ -3,6 +3,7 @@ import {
     useQuery,
 } from '@tanstack/react-query'
 import { parsePlayersIntoRoles } from "../util/match-series";
+import TeamRecentMatches from "./TeamRecentMatches";
 
 /**
  * Returns a component that retrieves and displays relevant data, including roster, of the selected e-sports team.
@@ -13,14 +14,12 @@ function Team() {
     const params = useParams();
     const teamName = params.teamName;
     const leagueName = params.leagueName;
-    const enabled = !!teamName && !!leagueName;
 
     const { isPending, error, data } = useQuery({
-        queryKey: [`teamData-${teamName ?? ""}-${leagueName ?? ""}`],
+        queryKey: [`teamData-${teamName}-${leagueName}`],
         queryFn: () => fetch(
-            `http://localhost:${import.meta.env.VITE_APP_PORT}/teams/${encodeURIComponent(teamName as string)}/${encodeURIComponent(leagueName as string)}`
+            `http://localhost:8000/teams/${encodeURIComponent(teamName as string)}/${encodeURIComponent(leagueName as string)}`
         ).then((res) => res.json()),
-        enabled,
     });
 
     if (isPending) return 'Loading...'
@@ -33,7 +32,7 @@ function Team() {
             <div className="d-flex flex-column align-items-center shadow">
                 <div className="d-flex flex-row gap-3 team-card">
                     <h1>{teamName}</h1>
-                    <img className="team-logo" src={`/assets/teams/${teamName}.png`} loading="lazy" alt={`${teamName} Logo`}/>
+                    <img className="team-logo" src={`/assets/teams/${teamName}.png`} loading="lazy" alt={`${teamName} Logo`} />
                     <p>{data.Region}</p>
                 </div>
                 <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
@@ -45,7 +44,7 @@ function Team() {
                     )
                     }
                 </div>
-                    <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
+                <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
                     {Array.from(coaches).map(([key, value], idx) =>
                         <div key={idx}>
                             <div>{key}</div>
@@ -53,6 +52,10 @@ function Team() {
                         </div>
                     )
                     }
+                </div>
+                <div className="d-flex flex-row gap-3 p-3 player-roster">
+                    <h5>Recent Series:</h5>
+                    <TeamRecentMatches team={teamName ?? ""} split={leagueName ?? ""}/>
                 </div>
             </div>
         );

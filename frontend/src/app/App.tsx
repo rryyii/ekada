@@ -22,7 +22,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/leagues/:leagueName" element={<Leagues key={location.pathname} />} />
             <Route path="/team/:teamName/:leagueName" element={<Team />} />
-            <Route path="/match_details" element={<MatchDetails />} />
+            <Route path="/match_details/:id" element={<MatchDetails />} />
           </Routes>
           <Footer />
         </Router>
