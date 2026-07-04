@@ -1,0 +1,10 @@
+httpx
+fastapi[standard]
+redis
+sqlmodel
+mwrogue
+pydantic
+sqlalchemy
+pymysql
+celery
+alembic
