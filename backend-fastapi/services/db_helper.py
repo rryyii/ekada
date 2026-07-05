@@ -1,5 +1,5 @@
 from .db import engine
-from sqlalchemy import select
+from sqlalchemy import select, func, case
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from ..models import *
@@ -68,6 +68,21 @@ class Query():
         if not result:
             raise HTTPException(status_code=404, detail="Failed to get recent matches")
         return result
+    
+    def get_champ_stats(self, split: str):
+        statement = select(
+            GameData.Champion,
+            GameData.Role,
+            func.count(GameData.Champion),
+            func.sum(case((GameData.PlayerWin=="Yes", 1), else_=0)).label("win_count"),
+            func.avg(GameData.Kills).label("avg_kills"),
+            func.avg(GameData.Deaths).label("avg_deaths"),
+            func.avg(GameData.Assists).label("avg_assists"),
+        ).group_by(GameData.Champion, GameData.Role).where(GameData.GameId.startswith(f"{split}_")).order_by(GameData.Role)
+        result = self.session.execute(statement).all()
+        if not result:
+            raise HTTPException(status_code=404, detail="Failed to aggregate champion data")
+        return [dict(row._mapping) for row in result]
     
     def get_spell(self, name):
         request = httpx.get(

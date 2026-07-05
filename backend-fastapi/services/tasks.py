@@ -14,6 +14,11 @@ credentials = AuthCredentials(user_file="me")
 session = Session(engine)
 site = EsportsClient("lol", credentials=credentials).cargo_client
 
+def parse_cargo_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    return datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+
 @app.task
 def match_data(league: str):
     current_date = datetime.now(timezone.utc)
@@ -78,7 +83,7 @@ def match_data(league: str):
         new.Team1RiftHeralds = match["Team1RiftHeralds"]
         new.Team1Gold = match["Team1Gold"]
         new.IsInternational = False
-        new.GameLength = 1.1
+        new.GameLength = match["Gamelength"]
         new.Team2 = match["Team2"]
         new.Team2Bans = match["Team2Bans"]
         new.Team2Picks = match["Team2Picks"]
@@ -93,7 +98,7 @@ def match_data(league: str):
         new.OverviewPage = match["OverviewPage"]
         new.Split = match["Split"]
         new.Patch = match["Patch"]
-        new.Date = match.get("DateTime_UTC")
+        new.Date = match["DateTime UTC"]
         new.Vod = match["VOD"]
 
         _, gameNumber = match["MatchId"].rsplit("_", 1)
@@ -190,14 +195,10 @@ def splitHandler(split_name: str, tournament_name: str, date: datetime, overview
     existing = session.query(Split).filter_by(Name=tournament_name).one_or_none()
     if existing:
         return existing
-    if date is not None:
-        new_date = date.year
-    else:
-        new_date = None
     new = Split(
         Name=tournament_name,
         OverviewPage=overview_page,
-        Date=new_date
+        Date=date
     )
     handleStandings(split_name, overview_page)
     session.add(new)

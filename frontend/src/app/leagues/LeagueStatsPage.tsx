@@ -5,7 +5,7 @@ function LeagueStatsPage({ tournamentString }: { tournamentString: string }) {
 
     const { data, error } = useQuery({
         queryKey: [`${tournamentString}-stats`],
-        queryFn: () => fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/leagues/data/${encodeURIComponent(tournamentString || "")}`)
+        queryFn: () => fetch(`http://localhost:8000/series/champion_stats/${encodeURIComponent(tournamentString || "")}`)
             .then((res) => res.json())
     })
 
@@ -21,8 +21,11 @@ function LeagueStatsPage({ tournamentString }: { tournamentString: string }) {
                         <thead>
                             <tr>
                                 <th>Champion</th>
-                                <th>Picks</th>
                                 <th>Win-rate</th>
+                                <th>Pick-count</th>
+                                <th>AVG Kills</th>
+                                <th>AVG Deaths</th>
+                                <th>AVG Assists</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,13 +35,15 @@ function LeagueStatsPage({ tournamentString }: { tournamentString: string }) {
                                         <p>{championList(item.Champion)}</p>
                                         <p>{item.Champion}</p>
                                     </td>
-                                    <td>{item.champion_count}</td>
+                                    <td>{(item.win_count / item.count).toFixed(2)}</td>
+                                    <td>{item.count}</td>
+                                    <td>{item.avg_kills.toFixed(2)}</td>
+                                    <td>{item.avg_deaths.toFixed(2)}</td>
+                                    <td>{item.avg_assists.toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                </div>
-                <div className={"leagueBanner"}>
                 </div>
             </div>
         )

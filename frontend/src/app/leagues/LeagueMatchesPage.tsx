@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
     useQuery,
 } from '@tanstack/react-query'
+import LeagueStatsPage from "./LeagueStatsPage.tsx";
 
 /**
  * Returns a component that lists both the current and future match schedule for the current league. 
@@ -61,7 +62,7 @@ function Leagues() {
                     </div>
                 </div>
                 <div>
-                    {/* {selectedTournament ? <LeagueStatsPage tournamentString={tournamentString ?? ""} /> : ""} */}
+                    {selectedSplit ? <LeagueStatsPage tournamentString={selectedSplit.OverviewPage ?? ""} /> : ""}
                 </div>
             </div>);
 

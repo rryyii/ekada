@@ -32,6 +32,7 @@ function Objectives({ selectedMatch, teams }: { selectedMatch: any, teams: any }
                     </div>
                     <div className="p-5">
                         <p>Version {data[0].Patch}</p>
+                        <p>{data[0].GameLength}</p>
                     </div>
                     <div className="match-team2 d-flex align-items-center gap-2">
                         <h4>{data[0].Team2}</h4>

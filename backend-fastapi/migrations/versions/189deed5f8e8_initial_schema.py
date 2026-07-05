@@ -1,8 +1,8 @@
 """Initial schema
 
-Revision ID: 27d6178a37a2
+Revision ID: 189deed5f8e8
 Revises: 
-Create Date: 2026-07-04 17:12:39.780135
+Create Date: 2026-07-04 18:18:16.478948
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '27d6178a37a2'
+revision: str = '189deed5f8e8'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -37,7 +37,7 @@ def upgrade() -> None:
     sa.Column('WinSeries', sa.Integer(), nullable=False),
     sa.Column('LossSeries', sa.Integer(), nullable=False),
     sa.Column('Streak', sa.String(length=5), nullable=False),
-    sa.Column('StreakDirection', sa.String(length=1), nullable=False),
+    sa.Column('StreakDirection', sa.String(length=10), nullable=False),
     sa.Column('Points', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('Id')
     )
@@ -98,7 +98,7 @@ def upgrade() -> None:
     sa.Column('Split', sa.String(length=255), nullable=False),
     sa.Column('Patch', sa.String(length=255), nullable=False),
     sa.Column('Vod', sa.String(length=255), nullable=False),
-    sa.Column('GameLength', sa.Float(), nullable=False),
+    sa.Column('GameLength', sa.String(length=100), nullable=False),
     sa.Column('Date', sa.DateTime(timezone=True), nullable=True),
     sa.Column('IsInternational', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['SeriesKey'], ['series.SeriesKey'], ),

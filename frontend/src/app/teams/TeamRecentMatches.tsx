@@ -18,7 +18,6 @@ function TeamRecentMatches({ team, split }: { team: string, split: string }) {
                     <div className="container d-flex flex-column gap-1 align-items-center">
                         <h5>{match.SplitKey}</h5>
                         <MatchCard matches={match} />
-                        <hr></hr>
                     </div>
                 )
                 )}

@@ -38,7 +38,6 @@ class GameData(Base):
     DamageToChampions: Mapped[int] = mapped_column(Integer)
 
 
-
 class MatchData(Base):
     __tablename__ = "match_data"
     
@@ -76,7 +75,7 @@ class MatchData(Base):
     Split: Mapped[str] = mapped_column(String(255))
     Patch: Mapped[str] = mapped_column(String(255))
     Vod: Mapped[str] = mapped_column(String(255))
-    GameLength: Mapped[float] = mapped_column(Float)
+    GameLength: Mapped[str] = mapped_column(String(100))
     Date: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True)
     IsInternational: Mapped[bool] = mapped_column(Boolean)
     
@@ -118,7 +117,7 @@ class Standings(Base):
     WinSeries: Mapped[int] = mapped_column(Integer)
     LossSeries: Mapped[int] = mapped_column(Integer)
     Streak: Mapped[str] = mapped_column(String(5))
-    StreakDirection: Mapped[str] = mapped_column(String(1))
+    StreakDirection: Mapped[str] = mapped_column(String(10))
     Points: Mapped[int] = mapped_column(Integer)
 
 
