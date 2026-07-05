@@ -14,8 +14,8 @@ async def tournament(tournament: str, db: Session = Depends(get_db)):
     response = query.get_tournament(tournament, current_date.year)
     return response
 
-@router.get("/champion_stats/{split:path}")
-async def champion_stats(split: str, db: Session = Depends(get_db)):
+@router.get("/champion_stats/{split:path}/{role}/{team}")
+async def champion_stats(split: str, role: str, team: str, db: Session = Depends(get_db)):
     query = Query(db)
-    response = query.get_champ_stats(split)
+    response = query.get_champ_stats(split, role, team)
     return response

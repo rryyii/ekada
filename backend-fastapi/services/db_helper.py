@@ -69,21 +69,26 @@ class Query():
             raise HTTPException(status_code=404, detail="Failed to get recent matches")
         return result
     
-    def get_champ_stats(self, split: str):
+    def get_champ_stats(self, split: str, role: str, team: str):
         statement = select(
-            GameData.Champion,
-            GameData.Role,
-            func.count(GameData.Champion),
-            func.sum(case((GameData.PlayerWin=="Yes", 1), else_=0)).label("win_count"),
-            func.avg(GameData.Kills).label("avg_kills"),
-            func.avg(GameData.Deaths).label("avg_deaths"),
-            func.avg(GameData.Assists).label("avg_assists"),
-        ).group_by(GameData.Champion, GameData.Role).where(GameData.GameId.startswith(f"{split}_")).order_by(GameData.Role)
+                GameData.Champion,
+                GameData.Role,
+                func.count(GameData.Champion),
+                func.sum(case((GameData.PlayerWin=="Yes", 1), else_=0)).label("win_count"),
+                func.avg(GameData.Kills).label("avg_kills"),
+                func.avg(GameData.Deaths).label("avg_deaths"),
+                func.avg(GameData.Assists).label("avg_assists"),
+            ).group_by(GameData.Champion, GameData.Role).where(GameData.GameId.startswith(f"{split}_")).order_by(GameData.Role)
+        if role != "default":
+            statement = statement.where(GameData.Role.like(role)) 
+        if team != "None":
+            statement = statement.where(GameData.Team.like(team))
         result = self.session.execute(statement).all()
         if not result:
-            raise HTTPException(status_code=404, detail="Failed to aggregate champion data")
+                raise HTTPException(status_code=404, detail="Failed to aggregate champion data")
         return [dict(row._mapping) for row in result]
-    
+
+
     def get_spell(self, name):
         request = httpx.get(
             f"https://ddragon.leagueoflegends.com/cdn/{self.latest_version}/data/en_US/summoner.json"

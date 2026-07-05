@@ -127,6 +127,7 @@ body {
 
 .match-table {
     width: 100%;
+    table-layout: fixed;
 }
 
 .match-table-header {

@@ -4,6 +4,7 @@ import {
 } from '@tanstack/react-query'
 import { parsePlayersIntoRoles } from "../util/match-series";
 import TeamRecentMatches from "./TeamRecentMatches";
+import LeagueStatsPage from "../leagues/LeagueStatsPage";
 
 /**
  * Returns a component that retrieves and displays relevant data, including roster, of the selected e-sports team.
@@ -33,11 +34,10 @@ function Team() {
                 <div className="d-flex flex-row gap-3 team-card">
                     <h1>{teamName}</h1>
                     <img className="team-logo" src={`/assets/teams/${teamName}.png`} loading="lazy" alt={`${teamName} Logo`} />
-                    <p>{data.Region}</p>
                 </div>
                 <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
                     {Array.from(players).map(([key, value], idx) =>
-                        <div key={idx}>
+                        <div key={`players-${idx}-${key}`}>
                             <div>{key}</div>
                             <div>{value}</div>
                         </div>
@@ -46,7 +46,7 @@ function Team() {
                 </div>
                 <div className="d-flex flex-row gap-3 player-roster justify-content-evenly">
                     {Array.from(coaches).map(([key, value], idx) =>
-                        <div key={idx}>
+                        <div key={`coaches-${idx}-${key}`}>
                             <div>{key}</div>
                             <div>{value}</div>
                         </div>
@@ -56,6 +56,9 @@ function Team() {
                 <div className="d-flex flex-row gap-3 p-3 player-roster">
                     <h5>Recent Series:</h5>
                     <TeamRecentMatches team={teamName ?? ""} split={leagueName ?? ""}/>
+                </div>
+                <div className="d-flex flex-row gap-3 p-3 player-roster">
+                    <LeagueStatsPage tournamentString={leagueName ?? ""} team={teamName ?? ""} />
                 </div>
             </div>
         );

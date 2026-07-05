@@ -16,7 +16,13 @@ function MatchDayList({ split }: { split: string }) {
             <div className="d-flex flex-column gap-4">
                 {data.map((match: any) => (
                     <div key={`match-list-${match.SeriesKey}`} className="container d-flex flex-column gap-1">
-                        <h2>{match.SeriesKey}</h2>
+                        <h2>{new Intl.DateTimeFormat('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }).format(new Date(match.Date.replace(' ', 'T')))}</h2>
                         <MatchCard matches={match} />
                     </div>
                 )

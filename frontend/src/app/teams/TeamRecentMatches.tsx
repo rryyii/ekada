@@ -15,7 +15,7 @@ function TeamRecentMatches({ team, split }: { team: string, split: string }) {
         return (
             <div className={"d-flex flex-row flex-wrap p-5"}>
                 {data.map((match: any) => (
-                    <div className="container d-flex flex-column gap-1 align-items-center">
+                    <div key={`recent-match-${match.SplitKey}-${match.Team}`} className="container d-flex flex-column gap-1 align-items-center">
                         <h5>{match.SplitKey}</h5>
                         <MatchCard matches={match} />
                     </div>
