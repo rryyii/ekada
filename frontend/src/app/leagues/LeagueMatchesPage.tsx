@@ -16,13 +16,17 @@ import LeagueStatsPage from "./LeagueStatsPage.tsx";
 function Leagues() {
     const params = useParams();
     const leagueName: string | undefined = params.leagueName;
+    let isInternational = false;
+    if (leagueName == "MSI" || leagueName == "Worlds" || leagueName == "First Stand") {
+        isInternational = true;
+    }
     const [selectedSplit, setSelectedSplit] = useState<any>();
     const [selectedName, setSelectedName] = useState<string>("");
     const path = `${leagueName}`;
 
-    const { isPending, error, data } = useQuery({
-        queryKey: [`leagueData-${leagueName}`],
-        queryFn: () => fetch(`http://localhost:8000/leagues/split/${path}`)
+    const { isPending, error, isError, data } = useQuery({
+        queryKey: [`leagueData-${leagueName}`, leagueName],
+        queryFn: () => fetch(`http://localhost:8000/leagues/split/${path}/${isInternational}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,
         staleTime: 0,
@@ -31,10 +35,11 @@ function Leagues() {
 
     if (isPending) return 'Loading...';
 
-    if (error) return 'An error has occurred: ' + error.message;
+    if (isError) {
+        console.log(error.name)
+    }
 
-    if (data) {
-
+    if (data && data.length > 0) {
         return (
             <div className="d-flex flex-column gap-5">
                 <div className="leagueBanner team-card shadow">
@@ -62,10 +67,16 @@ function Leagues() {
                     </div>
                 </div>
                 <div>
-                    {selectedSplit ? <LeagueStatsPage tournamentString={selectedSplit.OverviewPage ?? ""} /> : ""}
+                    {selectedSplit ? <LeagueStatsPage tournamentString={selectedSplit.OverviewPage ?? ""} team={"None"} /> : ""}
                 </div>
             </div>);
 
+    } else {
+        return (
+            <div className="d-flex p-5">
+                <h5>Failed to fetch any split data for {leagueName}</h5>
+            </div>
+        )
     }
 }
 

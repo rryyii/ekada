@@ -96,13 +96,13 @@ function Objectives({ selectedMatch, teams }: { selectedMatch: any, teams: any }
                     <h4>Bans</h4>
                     {data ? championList(data[0].Team2Bans) : "Fetching Team 2 Bans"}
                 </div>
-                <div className="d-flex p-5 flex-col gap-3 match-container flex-wrap">
+                <div className="d-flex p-5 flex-col gap-3 flex-wrap">
                     {teams && data ? <MatchTeamTable selectedMatch={data}
                         team={data[0].Team1}
                         teams={teams.get(data[0].Team1).get(selectedMatch)} /> : ""}
                     <hr></hr>
                 </div>
-                <div className="d-flex p-5 flex-col gap-3 match-container flex-wrap">
+                <div className="d-flex p-5 flex-col gap-3 flex-wrap">
                     {teams && data ? <MatchTeamTable selectedMatch={data}
                         team={data[0].Team2}
                         teams={teams.get(data[0].Team2).get(selectedMatch)} /> : ""}

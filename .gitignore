@@ -12,9 +12,11 @@ frontend/.vite/
 # Backend
 backend/node_modules/
 backend/Dockerfile
+backend/.venv
 backend/logs
 backend/*.log
 backend/npm-debug.log*
+backend/migrations
 
 # Editor directories and files
 .vscode/*

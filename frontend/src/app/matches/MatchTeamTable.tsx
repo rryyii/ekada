@@ -5,21 +5,23 @@ import { championList } from "../util/champion-images";
  * @param team Name of the team.
  * @param teams Array of the team, its players, and relevant data.
  */
-function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : any, team : any, teams : any}) {
+function MatchTeamTable({ selectedMatch, team, teams }: { selectedMatch: any, team: any, teams: any }) {
     if (selectedMatch == null || team == null || teams == null) {
         console.error("Null value was passed to state.")
         return;
     }
     return (
-        <table className="match-table">
+        <table className="match-table match-container">
             <thead>
                 <tr>
-                    <th>
-                        {team} 
-                        {selectedMatch[0].WinTeam == team ?
-                            <h1 className="winner-team">Won</h1>
-                            : <h1 className="loser-team">Lost</h1>
-                        }
+                    <th className={"d-flex justify-content-between"}>
+                        <div>
+                            {team}
+                            {selectedMatch[0].WinTeam == team ?
+                                <h1 className="winner-team">Won</h1>
+                                : <h1 className="loser-team">Lost</h1>
+                            }
+                        </div>
                         <div>
                             {teams[0].Side == "1" ? "Blue" : "Red"}
                         </div>
@@ -65,7 +67,7 @@ function MatchTeamTable({selectedMatch, team, teams} : {selectedMatch : any, tea
                         <td>
                             <span>{parseInt(item.DamageToChampions).toLocaleString("en-US")} </span>
                         </td>
-                        <td className="d-flex flex-row align-items-start">
+                        <td className="d-flex flex-row gap-2 align-items-center">
                             <span>{championList(item.Champion)}</span>
                             <span> {item.Name}</span>
                         </td>

@@ -126,12 +126,17 @@ body {
 }
 
 .match-table {
-    width: 100%;
+    width: 100vw;
     table-layout: fixed;
 }
 
 .match-table-header {
     width: 100%;
+    background-color: #282830;
+}
+
+th {
+    padding: 1rem;
 }
 
 #matchCard {
