@@ -10,5 +10,5 @@ app = Celery(
 from services.tasks import *
 
 if __name__ == "__main__":
-    result = match_data.delay("MSI")
+    result = match_data.delay("LEC")
     print(result)

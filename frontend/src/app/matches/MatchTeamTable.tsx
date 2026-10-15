@@ -1,4 +1,4 @@
-import { championList } from "../util/champion-images";
+import { championList, ItemImage, SummonerImage } from "../util/champion-images";
 /**
  * Returns a component including a table for the team's match data.
  * @param selectedMatch Match data for the selected match.
@@ -16,7 +16,7 @@ function MatchTeamTable({ selectedMatch, team, teams }: { selectedMatch: any, te
                 <tr>
                     <th className={"d-flex justify-content-between"}>
                         <div>
-                            {team}
+                            <p>{team}</p>
                             {selectedMatch[0].WinTeam == team ?
                                 <h1 className="winner-team">Won</h1>
                                 : <h1 className="loser-team">Lost</h1>
@@ -41,15 +41,15 @@ function MatchTeamTable({ selectedMatch, team, teams }: { selectedMatch: any, te
                 {teams ? teams.map((item: any) => (
                     <tr key={`team-details-${item.Name}`}>
                         <td>
-                            {/* <ItemImage item={item.Trinket} />
+                            <ItemImage item={item.Trinket} />
                             {item.SummonerSpells.split(",").map((val: string, idx: number) => (
                                 <SummonerImage key={idx} spell={val} />
-                            ))} */}
+                            ))}
                         </td>
                         <td className="d-flex">
-                            {/* {item.Items.split(";").map((val: string, idx: number) => (
+                            {item.Items.split(";").map((val: string, idx: number) => (
                                 <ItemImage key={idx} item={val} />
-                            ))} */}
+                            ))}
                         </td>
                         <td>
                             <span>{item.Kills}</span>

@@ -16,10 +16,9 @@ function MatchDetails() {
     const [selectedMatch, setSelectedMatch] = useState<any>();
     const [teams, setTeams] = useState<any>();
     const [matches, setMatches] = useState<any>();
-    const [queryKey, setQueryKey] = useState<number>(0);
 
     const { data, error } = useQuery({
-        queryKey: [`matchData`, id, queryKey],
+        queryKey: [`matchData`, id],
         queryFn: () => fetch(`http://localhost:8000/leagues/game_data/${encodeURIComponent(id ?? "")}`)
             .then((res) => res.json()),
         refetchOnWindowFocus: true,

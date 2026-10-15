@@ -1,0 +1,20 @@
+name: 'Get, download and cache dependencies'
+description: 'Fetches code and installs neccesary dependencies'
+runs:
+  using: 'composite'
+  steps:
+    - name: Get code
+      uses: actions/checkout@v7
+    - name: Install node.js
+      uses: actions/setup-node@v7
+    - name: Cache
+      id: cache
+      run: actions/cache@v6
+      with:
+        path: node_modules
+        key: cache-key-${{hashFiles('**/package-lock.json')}}
+    - name: Install dependencies
+      if:  steps.cache.outputs.cache-hit != 'true'
+      run: npm ci 
+
+

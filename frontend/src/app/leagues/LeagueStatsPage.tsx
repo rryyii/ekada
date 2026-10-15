@@ -38,7 +38,7 @@ function Group({ tournamentString, role, team = "None" }: { tournamentString: st
                 <div className={"leagueBanner"}>
                     <h1>Champion Statistics</h1>
                     <div className={"card-divider"}></div>
-                    <table className={"match-table"}>
+                    <table className={"match-container"}>
                         <thead>
                             <tr>
                                 <th>Champion</th>

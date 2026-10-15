@@ -11,7 +11,7 @@ export function championList(champions: string) {
     if (champions) {
         const data = handleNameCases(champions.split(","));
         return (
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row gap-1">
                 {data.map((champion, index) => (
                     <div key={index}>
                         <img className="base-img" loading="lazy" src={`https://ddragon.leagueoflegends.com/cdn/15.15.1/img/champion/${champion.replace(/\s/g, '').replace(/'/g, '')}.png`} width="40" height="40" draggable="false" alt={`${champion} image`} />
