@@ -1,0 +1,18 @@
+name: 'Get, download and cache dependencies'
+description: 'Installs node.js and the frontend dependencies, using a cache when possible'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install node.js
+      uses: actions/setup-node@v7
+    - name: Cache
+      id: cache
+      uses: actions/cache@v6
+      with:
+        path: frontend/node_modules
+        key: cache-key-${{ hashFiles('frontend/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash
+      working-directory: frontend
