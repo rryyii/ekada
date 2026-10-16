@@ -1,9 +1,10 @@
 from celery import Celery
+import os
 
 app = Celery(
     "api_worker",
-    broker="redis://localhost",
-    backend="db+mysql+pymysql://root@127.0.0.1:3306/ekada",
+    broker=os.getenv("CELERY_BROKER_URL", "redis://localhost"),
+    backend=os.getenv("CELERY_RESULT_BACKEND", "db+mysql+pymysql://root@127.0.0.1:3306/ekada"),
     include=["services.tasks"]
 )
 

@@ -4,15 +4,14 @@ frontend/dist/
 frontend/dist-ssr/
 frontend/.env
 frontend/public/
-frontend/Dockerfile
 frontend/.local
 frontend/*.log
 frontend/.vite/
 
 # Backend
 backend/node_modules/
-backend/Dockerfile
 backend/.venv
+backend/.env
 backend/logs
 backend/*.log
 backend/npm-debug.log*
@@ -28,5 +27,3 @@ backend/migrations
 *.njsproj
 *.sln
 *.sw?
-
-compose.yml

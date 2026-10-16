@@ -2,15 +2,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from redis.asyncio import Redis
 from typing import Any
+import os
 
 engine = create_engine(
-    url="mysql+pymysql://root@127.0.0.1:3306/ekada",
+    url=os.getenv("DATABASE_URL", "mysql+pymysql://root@127.0.0.1:3306/ekada"),
     echo=True,
     pool_pre_ping=True,
 )
 
 client = Redis(
-    host="localhost",
+    host=os.getenv("REDIS_HOST", "localhost"),
     port=6379,
     db=0,
     decode_responses=True

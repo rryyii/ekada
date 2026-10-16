@@ -1,0 +1,9 @@
+__pycache__
+**/__pycache__
+.venv
+.env
+.pytest_cache
+tests
+logs
+*.log
+migrations
